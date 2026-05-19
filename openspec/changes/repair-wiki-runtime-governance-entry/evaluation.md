@@ -85,7 +85,80 @@ Baseline failure:
 
 ## GREEN Result
 
-Pending implementation.
+After repairing `AGENTS.md`, the same text-gate replay finds the missing
+runtime and governance layers.
+
+GREEN command:
+
+```text
+rg -n "seed|Feishu|Go service|account-meeting-lore|Python commands as the primary runtime|## (Hard Stops|Behavior Replay Gate|Behavior Asset Prior-Art Gate|High-Frequency Skills|Agent Intent Routing|Wiki Runtime Stack|Skill Authoring Contract)|wiki-react|wiki-apply|wiki-route|wiki-context|wiki-medical-agent|writing-skills|test-driven-development|parent gate" AGENTS.md
+```
+
+Key GREEN hits:
+
+```text
+54:## Hard Stops
+62:| Semantic `.codex/skills/*` edit, or an `AGENTS.md` edit that changes skill routing/authoring behavior | Load `writing-skills` and its `test-driven-development` prerequisite before writing. |
+67:## Behavior Replay Gate
+86:## Behavior Asset Prior-Art Gate
+103:## High-Frequency Skills
+113:| Wiki request needs explicit intent, route, boundary, or decision-trace replay | `.codex/skills/wiki-react/SKILL.md` | bounded decision-trace surface |
+115:| Wiki query, source-integrated route, or context injection | `.codex/skills/wiki-query/SKILL.md`, `.codex/skills/wiki-route/SKILL.md`, or `.codex/skills/wiki-context/SKILL.md` | read-only context runtime |
+117:| Inbox, queue, or self-directed execution suggestions | `.codex/skills/wiki-inbox/SKILL.md`, `.codex/skills/wiki-queue/SKILL.md`, or `.codex/skills/wiki-apply/SKILL.md` | preview and suggestion surface |
+118:| Medical-loop status, diagnosis, confirmation, treatment, surgery, recovery, or archive checks | `.codex/skills/wiki-medical-agent/SKILL.md` | single normal user-facing medical-loop entry |
+125:## Agent Intent Routing
+142:## Wiki Runtime Stack
+188:## Skill Authoring Contract
+```
+
+Behavior result:
+
+- The prior thin runtime entry is replaced by hard stops, replay, prior-art,
+  high-frequency skills, agent intent routing, wiki runtime stack, medical-loop
+  authority, taxonomy gate, skill authoring contract, output routing, and
+  verification.
+- `High-Frequency Skills` owns the single repo-local runtime routing table.
+  `Agent Intent Routing` classifies and preserves parent gates instead of
+  creating a second table.
+- `writing-skills` and `test-driven-development` are explicitly required for
+  semantic skill edits and `AGENTS.md` edits that alter skill routing or
+  authoring behavior.
+- The source-reference business terms checked in the GREEN command do not
+  appear in `AGENTS.md`.
+- Runtime scripts are framed as executors/evidence, not as a substitute for
+  agent route selection.
+
+## Verification Evidence
+
+Commands run from `/mnt/d/cloud/LLM-WIKI`:
+
+```text
+python3 scripts/check_wiki_frontmatter.py
+python3 scripts/build_wiki_status.py
+python3 scripts/build_wiki_medical_agent.py --intent-text "status: can this wiki runtime route governance correctly after AGENTS repair?"
+rg -n "## (Hard Stops|Behavior Replay Gate|Behavior Asset Prior-Art Gate|High-Frequency Skills|Agent Intent Routing|Wiki Runtime Stack|Skill Authoring Contract)|wiki-react|wiki-apply|wiki-route|wiki-context|wiki-medical-agent|writing-skills|test-driven-development|parent gate|single repo-local runtime routing table" AGENTS.md
+git diff --check
+test -f scripts/check_behavior_assets.py && python3 scripts/check_behavior_assets.py || printf 'check_behavior_assets.py missing\n'
+```
+
+Results:
+
+- `check_wiki_frontmatter.py` exited successfully with no terminal output.
+- `build_wiki_status.py` refreshed `wiki/status/manifest.json` and
+  `wiki/status/wiki-status.md`; the generated status now sees one active
+  OpenSpec change.
+- `build_wiki_medical_agent.py` returned `intent: status`, active case
+  `wiki/ops/wiki-medical-cases/2026-05-19-081428-wiki-medical-case.md`,
+  `state: awaiting_confirmation`, `allowed_action: report_status`, and
+  `next_action: awaiting_confirmation`.
+- Text gate found the repaired behavior layers in `AGENTS.md`: hard stops,
+  behavior replay, prior-art, high-frequency skills, agent intent routing, wiki
+  runtime stack, skill authoring, `wiki-react`, `wiki-route`, `wiki-context`,
+  `wiki-apply`, `wiki-medical-agent`, `writing-skills`, and
+  `test-driven-development`.
+- `git diff --check` exited successfully with no output.
+- `scripts/check_behavior_assets.py` is not present in this repository; this is
+  a recorded verification limitation, not a pass.
 
 ## Prior-Art / Common-Rule Dedupe
 
@@ -142,3 +215,6 @@ Rejects:
   testing if the runtime grows.
 - Existing wiki ops pages for the core product contract and medical loop remain
   brief; they are cited as runtime anchors, not full specifications.
+- The repository has `wiki/config/behavior-asset-evaluation.yaml` but no
+  `scripts/check_behavior_assets.py`, so behavior-asset checks remain
+  documented by replay evidence rather than enforced by a local checker.

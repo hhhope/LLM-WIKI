@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-05-19T09:02:54.108555+00:00",
+  "generated_at": "2026-05-19T10:21:02.257526+00:00",
   "root": "/mnt/d/cloud/LLM-WIKI",
   "summary": {
-    "wiki_page_count": 16,
+    "wiki_page_count": 17,
     "source_record_count": 2,
     "inbox_file_count": 0,
     "pending_inbox_count": 0,
-    "active_change_count": 0,
+    "active_change_count": 1,
     "complete_change_count": 1,
     "wiki_sections": {
       "wiki/adr": 2,
       "wiki/domains": 1,
       "wiki/examples": 2,
-      "wiki/ops": 5,
+      "wiki/ops": 6,
       "wiki/reports": 1,
       "wiki/root": 1,
       "wiki/sources": 3,
@@ -115,6 +115,23 @@
       "canonical_object": null,
       "artifact_type": null,
       "status": null,
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/ops/2026-05-19-175609-readme-gate-review.md",
+      "section": "wiki/ops",
+      "sha256": "1e1ab85c703b3a7ed455566e946594dbd8d889f432de71c9fb5456146ab50547",
+      "bytes": 2049,
+      "title": null,
+      "domain": "wiki",
+      "canonical_object": "llm-wiki-readme-quality-gate",
+      "artifact_type": "gate-review",
+      "status": "generated",
       "related_objects": null,
       "related_sources": null,
       "derived_from": null,
@@ -319,34 +336,42 @@
       "open_tasks": 0,
       "total_tasks": 7,
       "tasks_path": "openspec/changes/bootstrap-self-running-wiki-governance/tasks.md"
+    },
+    {
+      "change_id": "repair-wiki-runtime-governance-entry",
+      "state": "active",
+      "done_tasks": 3,
+      "open_tasks": 2,
+      "total_tasks": 5,
+      "tasks_path": "openspec/changes/repair-wiki-runtime-governance-entry/tasks.md"
     }
   ],
   "product_status": {
     "contract_version": "1",
     "object_type_counts": {
-      "governance": 3,
+      "governance": 4,
       "output": 1,
       "source": 3,
-      "unknown": 10
+      "unknown": 11
     },
     "readiness_counts": {
       "accepted": 1,
-      "draft-only": 15
+      "draft-only": 16
     },
     "source_layer_counts": {
-      "ops": 5,
+      "ops": 6,
       "report": 1,
       "source": 3,
-      "spec": 3,
+      "spec": 4,
       "unknown": 5
     },
     "identity_coverage": {
-      "with_identity": 7,
+      "with_identity": 8,
       "missing_identity": 9
     },
     "relation_coverage": {
       "with_relations": 0,
-      "missing_relations": 16
+      "missing_relations": 17
     },
     "unresolved_items": [
       {
@@ -479,9 +504,9 @@
   "content_enrichment_health": {
     "status": "pass",
     "summary": {
-      "entry_count": 5,
+      "entry_count": 6,
       "review_needed_count": 0,
-      "high_confidence_count": 5,
+      "high_confidence_count": 6,
       "medium_confidence_count": 0,
       "low_confidence_count": 0
     },
@@ -495,8 +520,8 @@
   "content_adjudication_health": {
     "status": "review_needed",
     "summary": {
-      "candidate_count": 3,
-      "full_detail_count": 3,
+      "candidate_count": 4,
+      "full_detail_count": 4,
       "review_focus_count": 1,
       "taxonomy_candidate_count": 0,
       "drift_trace_count": 1
@@ -510,7 +535,7 @@
       {
         "type": "content_adjudication",
         "path": "wiki/adr/0001-seed-repo-boundaries.md",
-        "detail_ref": "detail-0003",
+        "detail_ref": "detail-0004",
         "problem": "review_needed",
         "review_reasons": [
           "adr_risk",
@@ -529,8 +554,8 @@
   "moc_projection_health": {
     "status": "drift",
     "summary": {
-      "candidate_count": 6,
-      "create_count": 6,
+      "candidate_count": 7,
+      "create_count": 7,
       "update_count": 0,
       "noop_count": 0,
       "orphan_count": 0
@@ -542,7 +567,7 @@
         "kind": "domain",
         "key": "wiki",
         "problem": "create",
-        "link_count": 4,
+        "link_count": 5,
         "repair_route": "obsidian-moc-projection"
       },
       {
@@ -550,6 +575,15 @@
         "path": "wiki/moc/object-llm-wiki-core-product-contract.md",
         "kind": "object",
         "key": "llm-wiki-core-product-contract",
+        "problem": "create",
+        "link_count": 1,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/object-llm-wiki-readme-quality-gate.md",
+        "kind": "object",
+        "key": "llm-wiki-readme-quality-gate",
         "problem": "create",
         "link_count": 1,
         "repair_route": "obsidian-moc-projection"
