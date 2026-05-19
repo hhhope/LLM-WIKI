@@ -210,39 +210,53 @@ doctor -> review/confirm -> treatment or surgery -> recovery
 
 这一组控制升级路径：先澄清边界，再最小化变更，再用 OpenSpec、taxonomy、验证证据记录结构性变更。没有通过这组门禁的内容，只能是草稿、候选观察或局部产物。
 
-## 案例：微信公众号文章到 H5 / 报告
+## 案例：访谈材料到 H5 精读板
 
-输入不是单独的一篇文章，而是“材料 + 意图”：
+这个仓库已经保留了一个真实样例：李想 / 罗永浩 AI Agent 访谈材料被整理成
+H5 深度阅读板，同时沉淀 source、example、process 和反例。
 
-- 一篇微信公众号文章；
-- 目标产物，例如 H5 深度阅读、报告草稿、卡片、时间线、温度轴或证据板；
-- 读者、使用场景和是否需要沉淀到 Wiki。
+这个案例的输入不是“单独一篇文章”，而是：
 
-推荐路径：
+- 访谈材料和来源记录；
+- 用户意图：补齐被压缩的关键段落，做成可读的 H5 精读板；
+- 目标产物：阅读窗口、时间线、温度轴、证据面板和可追溯数据文件；
+- 沉淀要求：把 H5、`data.js`、source note、过程记录和反例都放进 Wiki。
+
+实际链路：
 
 ```text
-1. 用户意图 -> learning-capture
-   Agent 先判断这是来源证据、方法参考、案例素材、输出任务，还是候选观察。
+1. 材料 + 意图 -> learning-capture
+   Agent 先判断这不是普通摘要任务，而是来源证据、案例素材和读者面输出任务。
 
-2. 按材料形态选择读取器
-   如果是 mp.weixin.qq.com，再调用 weixin-reader 取正文；如果材料已经在仓库中，
-   走 material-collaboration-defaults；如果是 README/Repo，走 learning-capture 的 repo-readme module。
+2. 访谈结构 -> interview-deep-reading-board
+   访谈不能只做词云。Agent 按阅读窗口、人物回合、相邻逻辑、时间线和温度轴组织材料。
 
-3. 按目标选择产物链路
-   H5、报告、卡片、证据板、时间线、温度轴等不是固定产物，由用户意图和读者目标决定。
+3. 读者面输出 -> public-report-quality-gate
+   H5 和公开样例必须说明读者意图、结构、引用边界和判断归属。
 
-4. wiki/sources + wiki/ops
-   保存来源证据、摘要、可复用方法、争议点、输出用途和后续动作。
+4. 证据沉淀 -> wiki/sources + wiki/examples + wiki/ops
+   source note 保存来源边界；example 保存 H5、data.js 和反例；ops 记录为什么这样沉淀。
 
-5. public-report-quality-gate / interview-deep-reading-board
-   如果进入读者可见的 H5、报告或深度阅读产物，先过读者意图、结构、引用和判断归属门禁。
+5. 过程快照 -> process snapshots
+   源 wiki 的 report gate review 和 brainstorming drift retro 作为例子证据保留。
 
-6. verify-before-claiming / medical loop
-   验证目标产物和 Wiki 沉淀都真实存在；如涉及结构、规则或 Wiki 治理变更，进入
-   medical loop 或 OpenSpec。
+6. 完成声明 -> verify-before-claiming
+   验证 H5、data.js、source note、过程文件和 status manifest 都真实存在。
 ```
 
-这个例子体现的是 AI 共建：AI 负责读材料、抽结构、判断边界、选择 Skill、生成产物、沉淀上下文和触发复查；人负责目标、取舍、授权和验收。
+当前仓库中的对应文件：
+
+- 样例入口：`wiki/examples/interview-deep-reading-board-lixiang-luoyonghao.md`
+- H5：`wiki/examples/interview-deep-reading-board-lixiang-luoyonghao/lixiang-luoyonghao-ai-agent-reading-board.html`
+- 数据：`wiki/examples/interview-deep-reading-board-lixiang-luoyonghao/lixiang-luoyonghao-ai-agent-reading-board-data.js`
+- 反例：`wiki/examples/interview-deep-reading-board-lixiang-luoyonghao/lixiang-luoyonghao-ai-agent-wordcloud.html`
+- 来源：`wiki/sources/agentic-product-engineering-collaboration-lixiang-luoyonghao-ai-agent-reading-2026-05-18.md`
+- 过程：`wiki/ops/lixiang-luoyonghao-reading-board-example-process.md`
+- 过程快照：`wiki/examples/interview-deep-reading-board-lixiang-luoyonghao/process/`
+
+这个例子体现的是 AI 共建：人指出目标、缺失段落、取舍和验收标准；AI 负责读材料、
+抽结构、判断边界、选择 Skill、生成 H5 形态、沉淀上下文并触发复查。工具只负责
+保存文件、生成状态和提供检查证据。
 
 ## 项目结构
 

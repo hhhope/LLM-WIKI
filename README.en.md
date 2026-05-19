@@ -248,48 +248,64 @@ change, then record structural changes through OpenSpec, taxonomy, and fresh
 verification evidence. Anything that has not passed this path remains a draft,
 candidate observation, or local artifact.
 
-## Example: WeChat Article To H5 / Report
+## Example: Interview Material To H5 Deep-Reading Board
 
-The input is not just an article. It is material plus intent:
+This repository now carries a concrete example: the Li Xiang / Luo Yonghao AI
+Agent interview material was turned into an H5 deep-reading board, with source,
+example, process, data, and counterexample evidence preserved in the wiki.
 
-- a WeChat article;
-- the target artifact, such as an H5 deep read, report draft, card, timeline,
-  temperature axis, or evidence board;
-- reader, usage scenario, and whether the result should be captured into the
-  wiki.
+The input is not "one article" alone. It is material plus intent:
 
-Recommended path:
+- interview material and a source record;
+- user intent: recover compressed key sections and turn them into a readable H5
+  deep-reading board;
+- target artifact: reading windows, timeline, temperature axis, evidence panel,
+  and traceable data file;
+- capture requirement: keep the H5, `data.js`, source note, process record, and
+  counterexample inside the wiki.
+
+Actual path:
 
 ```text
-1. User intent -> learning-capture
-   The agent first decides whether the material is evidence, method reference,
-   case material, output work, or candidate observation.
+1. Material + intent -> learning-capture
+   The agent classifies this as source evidence, case material, and
+   reader-facing output work, not a generic summary task.
 
-2. Choose the reader by material shape
-   If the source is mp.weixin.qq.com, call weixin-reader to fetch the body. If
-   the material already lives in the repo, use material-collaboration-defaults.
-   If it is a README or repo, use the repo-readme module under learning-capture.
+2. Interview structure -> interview-deep-reading-board
+   The interview cannot collapse into a word cloud. The agent preserves reading
+   windows, speaker turns, adjacent logic, timeline, and temperature axis.
 
-3. Choose the artifact path by intent
-   H5, report, card, evidence board, timeline, and temperature axis are not
-   fixed outputs. The user's intent and reader goal decide the shape.
+3. Reader-facing output -> public-report-quality-gate
+   The H5 and public example must state reader intent, structure, citation
+   boundary, and judgment ownership.
 
-4. wiki/sources + wiki/ops
-   Store source evidence, summaries, reusable methods, disputes, output-use
-   hints, and next actions.
+4. Evidence capture -> wiki/sources + wiki/examples + wiki/ops
+   The source note keeps provenance boundaries; examples keep the H5, data.js,
+   and counterexample; ops records why this belongs in LLM-WIKI.
 
-5. public-report-quality-gate / interview-deep-reading-board
-   For reader-visible H5, reports, or deep-reading artifacts, pass reader
-   intent, structure, citation, and judgment-ownership gates first.
+5. Process snapshots
+   The source wiki's report gate review and brainstorming drift retro are kept
+   as example evidence.
 
-6. verify-before-claiming / medical loop
-   Verify that the target artifact and wiki capture both exist. Route
-   structural, rule, or wiki governance changes to the medical loop or OpenSpec.
+6. Completion claim -> verify-before-claiming
+   Verify that the H5, data.js, source note, process files, and status manifest
+   all exist.
 ```
 
-This is AI co-building: AI reads, extracts structure, judges boundaries,
-selects Skills, generates artifacts, captures context, and triggers review;
-humans own goals, judgment, authorization, and acceptance.
+Files in this repository:
+
+- Example entry: `wiki/examples/interview-deep-reading-board-lixiang-luoyonghao.md`
+- H5: `wiki/examples/interview-deep-reading-board-lixiang-luoyonghao/lixiang-luoyonghao-ai-agent-reading-board.html`
+- Data: `wiki/examples/interview-deep-reading-board-lixiang-luoyonghao/lixiang-luoyonghao-ai-agent-reading-board-data.js`
+- Counterexample: `wiki/examples/interview-deep-reading-board-lixiang-luoyonghao/lixiang-luoyonghao-ai-agent-wordcloud.html`
+- Source: `wiki/sources/agentic-product-engineering-collaboration-lixiang-luoyonghao-ai-agent-reading-2026-05-18.md`
+- Process: `wiki/ops/lixiang-luoyonghao-reading-board-example-process.md`
+- Process snapshots: `wiki/examples/interview-deep-reading-board-lixiang-luoyonghao/process/`
+
+This is AI co-building: humans own the goal, missing sections, tradeoffs, and
+acceptance criteria; AI reads material, extracts structure, judges boundaries,
+selects Skills, generates the H5 shape, captures context, and triggers review.
+Tools only save files, generate status, and provide verification evidence.
 
 ## Project Structure
 

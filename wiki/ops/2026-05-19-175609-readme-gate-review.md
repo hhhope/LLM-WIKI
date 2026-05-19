@@ -20,8 +20,8 @@ status: generated
   generic Markdown wiki positioning; installer-style README.
 - User-owned judgment: governance belongs after architecture; then gates; then
   specialized skills; then concrete cases.
-- User-owned correction: the WeChat example must start from user intent routed
-  through `learning-capture`, not from `weixin-reader` as a fixed first step.
+- User-owned correction: the example must use the real Li Xiang / Luo Yonghao
+  reading-board evidence chain, not a generic WeChat-to-H5 flow.
 - User-owned correction: featured skills must be presented as operating loops,
   not as a flat tool list.
 - User-owned correction: governance gates should be table-shaped, and README
@@ -35,7 +35,7 @@ status: generated
   - governance design and gates second;
   - environment requirements after governance gates;
   - specialized skill loops third;
-  - WeChat article to H5/report example as intent-first routing;
+  - Li Xiang / Luo Yonghao interview-to-H5 example as evidence-backed routing;
   - boundaries and entry points.
 
 ## Gate Checks
@@ -52,8 +52,9 @@ status: generated
   the primary operating model.
 - Medical-agent boundary: AI interprets case files; humans confirm key
   decisions; tools execute approved actions and leave recovery evidence.
-- WeChat example boundary: `weixin-reader` is a material reader, not the owner
-  of the workflow; product shape is selected from user intent and reader goal.
+- Example boundary: the Li Xiang / Luo Yonghao case is a captured
+  output-shape example with H5, `data.js`, source note, process record, and
+  process snapshots; it is not a generic claim that every article becomes H5.
 - Featured skills boundary: Skills are operating protocols for intake,
   retrieval, medical maintenance, reader-facing output, and governance
   promotion; they are not command wrappers.
@@ -61,9 +62,10 @@ status: generated
   for verification and governance; Python remains a tool layer, not the
   decision layer.
 - Verification to run: read back both README files, check referenced paths,
-  run frontmatter checker, inspect git status.
+  run frontmatter checker, run existing tests, inspect git status.
 
 ## Proof Boundary
 
-This review verifies README intent and structure. It does not prove that every
-example workflow has been executed end-to-end against a real WeChat article.
+This review verifies README intent and structure. It does not claim the example
+is a publish-ready report; it verifies that the repository contains the cited
+H5, data, source, process, and snapshot evidence.
