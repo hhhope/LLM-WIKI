@@ -1,0 +1,523 @@
+{
+  "generated_at": "2026-05-19T08:09:54.692273+00:00",
+  "root": "/mnt/d/cloud/LLM-WIKI",
+  "summary": {
+    "wiki_page_count": 14,
+    "source_record_count": 2,
+    "inbox_file_count": 0,
+    "pending_inbox_count": 0,
+    "active_change_count": 0,
+    "complete_change_count": 0,
+    "wiki_sections": {
+      "wiki/adr": 2,
+      "wiki/domains": 1,
+      "wiki/examples": 2,
+      "wiki/ops": 3,
+      "wiki/reports": 1,
+      "wiki/root": 1,
+      "wiki/sources": 3,
+      "wiki/timeline": 1
+    }
+  },
+  "wiki_pages": [
+    {
+      "path": "wiki/adr/0001-seed-repo-boundaries.md",
+      "section": "wiki/adr",
+      "sha256": "1c34a1e6b62a653f7690df091d69aab799989be81d527fdf0f91ecb90d0227d2",
+      "bytes": 281,
+      "title": null,
+      "domain": "none",
+      "canonical_object": "seed-repo-boundaries",
+      "artifact_type": "adr",
+      "status": "accepted",
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/adr/index.md",
+      "section": "wiki/adr",
+      "sha256": "ce3f1ec0f996089edc1f54285eb83f8c3b40baa645bc999594e451ef6ea80053",
+      "bytes": 132,
+      "title": null,
+      "domain": "none",
+      "canonical_object": "adr-index",
+      "artifact_type": "index",
+      "status": null,
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/domains/index.md",
+      "section": "wiki/domains",
+      "sha256": "5f2fdcef0410c45905da2b25d152b4aa80b8fdea0386b737bae278c716eba0c2",
+      "bytes": 108,
+      "title": null,
+      "domain": "none",
+      "canonical_object": null,
+      "artifact_type": null,
+      "status": null,
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/examples/index.md",
+      "section": "wiki/examples",
+      "sha256": "cf372d450ec69f98acb075bf06d5d648b94054f75b282e10f16a53b53072c11f",
+      "bytes": 108,
+      "title": null,
+      "domain": "none",
+      "canonical_object": null,
+      "artifact_type": null,
+      "status": null,
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/examples/interview-deep-reading-board.md",
+      "section": "wiki/examples",
+      "sha256": "b140e7a9d19e75019eb02bcee6f51acfa68c86514ff4056d64e834c07a06c0dc",
+      "bytes": 212,
+      "title": null,
+      "domain": "public-report-output",
+      "canonical_object": null,
+      "artifact_type": null,
+      "status": "sanitized-seed",
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/index.md",
+      "section": "wiki/root",
+      "sha256": "9462900bef9767f330d1922e9fae80fd89dc1ff8b2377902e0d27923227f5eb8",
+      "bytes": 286,
+      "title": null,
+      "domain": "none",
+      "canonical_object": null,
+      "artifact_type": null,
+      "status": null,
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/ops/index.md",
+      "section": "wiki/ops",
+      "sha256": "f885870715c076815b70b4ad594df405d437582b2258da787f7557a2fb6ca260",
+      "bytes": 186,
+      "title": null,
+      "domain": "none",
+      "canonical_object": "wiki-ops-index",
+      "artifact_type": "index",
+      "status": null,
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/ops/llm-wiki-core-product-contract.md",
+      "section": "wiki/ops",
+      "sha256": "49ea4570669300d4d0459b9572728297109f64d41c6899b926e3075afcca6379",
+      "bytes": 244,
+      "title": null,
+      "domain": "wiki",
+      "canonical_object": "llm-wiki-core-product-contract",
+      "artifact_type": "product-contract",
+      "status": "seed",
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/ops/llm-wiki-self-evolution-medical-loop.md",
+      "section": "wiki/ops",
+      "sha256": "63f135640694f59ffc56f8ca5c5d9cfb5cb1569a5048ad767f4c4884cd76a4ff",
+      "bytes": 289,
+      "title": null,
+      "domain": "wiki",
+      "canonical_object": "llm-wiki-self-evolution-medical-loop",
+      "artifact_type": "ops-model",
+      "status": "seed",
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/reports/index.md",
+      "section": "wiki/reports",
+      "sha256": "cfdb29b7ae653ba2a93d7eb3b930ea70e18b5482dcbeb3a35081dbcaff980418",
+      "bytes": 99,
+      "title": null,
+      "domain": "none",
+      "canonical_object": null,
+      "artifact_type": null,
+      "status": null,
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/sources/index.md",
+      "section": "wiki/sources",
+      "sha256": "ad5ecee7161bd8a2ddd752df41c8a193ffb1e822a6a8ec9e5eb8a56e982d6fc1",
+      "bytes": 148,
+      "title": null,
+      "domain": "none",
+      "canonical_object": null,
+      "artifact_type": null,
+      "status": null,
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/sources/lixiang-interview-reading-sanitized.md",
+      "section": "wiki/sources",
+      "sha256": "222aec8fcbd7f3b18642cd8af9ecabfeea0e61a34edf7e795d528bb25f6d712b",
+      "bytes": 266,
+      "title": null,
+      "domain": "product-engineering-collaboration",
+      "canonical_object": null,
+      "artifact_type": null,
+      "status": "sanitized-seed",
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/sources/llm-wiki-method-reading.md",
+      "section": "wiki/sources",
+      "sha256": "7fb38dec2e40ebf80442da3209875c113cb0e4752ec976a1c927a81ad7381ae5",
+      "bytes": 260,
+      "title": null,
+      "domain": "wiki",
+      "canonical_object": null,
+      "artifact_type": null,
+      "status": "seed",
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/timeline/index.md",
+      "section": "wiki/timeline",
+      "sha256": "6e4709bfb69548d106463b3ce3daa4fcdf0c67fa41eab904328a5654420d730d",
+      "bytes": 102,
+      "title": null,
+      "domain": "none",
+      "canonical_object": null,
+      "artifact_type": null,
+      "status": null,
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    }
+  ],
+  "source_records": [
+    {
+      "path": "wiki/sources/lixiang-interview-reading-sanitized.md",
+      "source_path": null,
+      "source_type": "public-interview-reference",
+      "domain": "product-engineering-collaboration",
+      "status": "sanitized-seed"
+    },
+    {
+      "path": "wiki/sources/llm-wiki-method-reading.md",
+      "source_path": null,
+      "source_type": "public-method-reference",
+      "domain": "wiki",
+      "status": "seed"
+    }
+  ],
+  "inbox_files": [],
+  "pending_inbox_files": [],
+  "openspec_changes": [],
+  "product_status": {
+    "contract_version": "1",
+    "object_type_counts": {
+      "governance": 2,
+      "output": 1,
+      "source": 3,
+      "unknown": 8
+    },
+    "readiness_counts": {
+      "accepted": 1,
+      "draft-only": 13
+    },
+    "source_layer_counts": {
+      "ops": 3,
+      "report": 1,
+      "source": 3,
+      "spec": 2,
+      "unknown": 5
+    },
+    "identity_coverage": {
+      "with_identity": 5,
+      "missing_identity": 9
+    },
+    "relation_coverage": {
+      "with_relations": 0,
+      "missing_relations": 14
+    },
+    "unresolved_items": []
+  },
+  "domain_taxonomy_health": {
+    "status": "drift",
+    "config_path": "wiki/config/frontmatter-taxonomy.yaml",
+    "taxonomy_version": 1,
+    "summary": {
+      "error": 0,
+      "warn": 5,
+      "info": 0,
+      "total": 5
+    },
+    "strict_gate": {
+      "enabled": true,
+      "passed": false,
+      "minimum_pass_score": 100,
+      "blocking_severities": [
+        "error"
+      ],
+      "blocking_entry_count": 0
+    },
+    "scorecard": {
+      "score": 75,
+      "minimum_pass_score": 100,
+      "passed": false,
+      "blocking_entry_count": 0,
+      "dimensions": [
+        {
+          "dimension": "completeness",
+          "weight": 40,
+          "finding_count": 0,
+          "points_lost": 0,
+          "passed": true
+        },
+        {
+          "dimension": "taxonomy_validity",
+          "weight": 25,
+          "finding_count": 5,
+          "points_lost": 25,
+          "passed": false
+        },
+        {
+          "dimension": "identity_coverage",
+          "weight": 20,
+          "finding_count": 0,
+          "points_lost": 0,
+          "passed": true
+        },
+        {
+          "dimension": "relation_shape",
+          "weight": 15,
+          "finding_count": 0,
+          "points_lost": 0,
+          "passed": true
+        }
+      ]
+    },
+    "entries": [
+      {
+        "kind": "possible_unregistered_producer",
+        "severity": "warn",
+        "path": "scripts/check_wiki_frontmatter.py",
+        "message": "File contains frontmatter-looking text but is not registered in producer_paths.",
+        "field": null,
+        "value": null,
+        "dimension": "taxonomy_validity"
+      },
+      {
+        "kind": "possible_unregistered_producer",
+        "severity": "warn",
+        "path": "scripts/wiki_medical_case.py",
+        "message": "File contains frontmatter-looking text but is not registered in producer_paths.",
+        "field": null,
+        "value": null,
+        "dimension": "taxonomy_validity"
+      },
+      {
+        "kind": "possible_unregistered_producer",
+        "severity": "warn",
+        "path": "scripts/wiki_moc_projection.py",
+        "message": "File contains frontmatter-looking text but is not registered in producer_paths.",
+        "field": null,
+        "value": null,
+        "dimension": "taxonomy_validity"
+      },
+      {
+        "kind": "possible_unregistered_producer",
+        "severity": "warn",
+        "path": "scripts/wiki_status_render.py",
+        "message": "File contains frontmatter-looking text but is not registered in producer_paths.",
+        "field": null,
+        "value": null,
+        "dimension": "taxonomy_validity"
+      },
+      {
+        "kind": "possible_unregistered_producer",
+        "severity": "warn",
+        "path": "scripts/wiki_treatment.py",
+        "message": "File contains frontmatter-looking text but is not registered in producer_paths.",
+        "field": null,
+        "value": null,
+        "dimension": "taxonomy_validity"
+      }
+    ]
+  },
+  "graph_parse_health": {
+    "status": "pass",
+    "summary": {
+      "total": 0
+    },
+    "entries": []
+  },
+  "content_enrichment_health": {
+    "status": "pass",
+    "summary": {
+      "entry_count": 3,
+      "review_needed_count": 0,
+      "high_confidence_count": 3,
+      "medium_confidence_count": 0,
+      "low_confidence_count": 0
+    },
+    "entries": [],
+    "proof_boundary_notes": [
+      "Content enrichment is deterministic preview only.",
+      "It does not write frontmatter.",
+      "It does not prove semantic truth."
+    ]
+  },
+  "content_adjudication_health": {
+    "status": "review_needed",
+    "summary": {
+      "candidate_count": 3,
+      "full_detail_count": 3,
+      "review_focus_count": 1,
+      "taxonomy_candidate_count": 0,
+      "drift_trace_count": 1
+    },
+    "eval_result": {
+      "passed": true,
+      "errors": [],
+      "warnings": []
+    },
+    "entries": [
+      {
+        "type": "content_adjudication",
+        "path": "wiki/adr/0001-seed-repo-boundaries.md",
+        "detail_ref": "detail-0003",
+        "problem": "review_needed",
+        "review_reasons": [
+          "adr_risk",
+          "openspec_required"
+        ],
+        "repair_route": "content-adjudication-review-package"
+      }
+    ],
+    "proof_boundary_notes": [
+      "Content adjudication is deterministic review output only.",
+      "It does not write frontmatter.",
+      "It does not mutate taxonomy config.",
+      "It does not prove hidden semantic truth."
+    ]
+  },
+  "moc_projection_health": {
+    "status": "drift",
+    "summary": {
+      "candidate_count": 4,
+      "create_count": 4,
+      "update_count": 0,
+      "noop_count": 0,
+      "orphan_count": 0
+    },
+    "entries": [
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/domain-wiki.md",
+        "kind": "domain",
+        "key": "wiki",
+        "problem": "create",
+        "link_count": 2,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/object-llm-wiki-core-product-contract.md",
+        "kind": "object",
+        "key": "llm-wiki-core-product-contract",
+        "problem": "create",
+        "link_count": 1,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/object-llm-wiki-self-evolution-medical-loop.md",
+        "kind": "object",
+        "key": "llm-wiki-self-evolution-medical-loop",
+        "problem": "create",
+        "link_count": 1,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/object-seed-repo-boundaries.md",
+        "kind": "object",
+        "key": "seed-repo-boundaries",
+        "problem": "create",
+        "link_count": 1,
+        "repair_route": "obsidian-moc-projection"
+      }
+    ],
+    "proof_boundary_notes": [
+      "MOC projection is derived from explicit graph/frontmatter structure.",
+      "Dry-run and preview plans do not write files.",
+      "Generated blocks are the only writer-owned region of MOC pages."
+    ]
+  }
+}

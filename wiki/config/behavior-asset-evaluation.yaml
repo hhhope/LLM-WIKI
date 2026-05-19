@@ -1,0 +1,78 @@
+severity:
+  missing_evaluation: error
+  missing_required_section: error
+  missing_positive_scenario: error
+  missing_negative_scenario: error
+  missing_parent_gate_preservation: error
+  missing_prior_art_dedupe: error
+  route_table_ownership_drift: error
+  weak_replay_evidence: error
+  shallow_text_evidence: error
+
+required_sections:
+  - "## Pressure Scenarios"
+  - "## RED Baseline"
+  - "## GREEN Result"
+  - "## Residual Risks"
+
+required_replay_fields:
+  - "input or situation shape"
+  - "trigger condition"
+  - "expected route"
+  - "repo-visible artifact"
+  - "expected output"
+  - "promotion or non-promotion boundary"
+  - "proof boundary"
+
+positive_markers:
+  - "positive"
+
+shallow_evidence_markers:
+  - "text exists"
+  - "presence-only"
+  - "contains required text"
+
+negative_markers:
+  - "negative"
+  - "should-not-trigger"
+
+parent_gate_markers:
+  - "parent gate"
+  - "preserve"
+
+covered_change_markers:
+  - ".codex/skills/"
+  - "rules/"
+  - "AGENTS.md"
+  - "runtime routing"
+  - "parent gate"
+
+grandfathered_changes:
+  - "openspec/changes/route-repo-public-artifacts-through-agent-intent"
+  - "openspec/changes/stabilize-wiki-frontmatter-taxonomy"
+
+ownership_rules:
+  agent_intent_routing:
+    owner_section: "High-Frequency Skills"
+    classification_section: "Agent Intent Routing"
+    forbidden_markers:
+      - "Minimum routes"
+      - "| Intent shape | Parent gate |"
+
+prior_art_dedupe:
+  required_section: "## Prior-Art / Common-Rule Dedupe"
+  required_when_markers:
+    - ".codex/skills/"
+    - "skills/"
+    - "rules/"
+    - "AGENTS.md"
+  required_markers:
+    - "Scanned:"
+    - "Owns:"
+    - "References:"
+    - "Rejects:"
+  grandfathered_changes:
+    - "openspec/changes/add-go-engineering-security-rules"
+    - "openspec/changes/harden-behavior-asset-evaluation-gate"
+    - "openspec/changes/route-repo-public-artifacts-through-agent-intent"
+    - "openspec/changes/stabilize-wiki-frontmatter-taxonomy"

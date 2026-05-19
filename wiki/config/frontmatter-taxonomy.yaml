@@ -1,0 +1,138 @@
+version: 1
+
+fields:
+  layer:
+    allowed:
+      - sources
+      - domains
+      - timeline
+      - reports
+      - ops
+      - adr
+      - spec
+      - examples
+      - status
+
+  domain:
+    meaning: business_or_topic_only
+    allow_none: true
+    require_classification_flag_for_unclassified: true
+    forbidden:
+      - personal-ops
+    known:
+      - none
+      - unclassified
+      - nirvana
+      - nirvana-project
+      - account-clearing
+      - agentic-collaboration
+      - report-workflow
+      - wiki
+      - agent-harness
+      - ai-workflow
+      - product-engineering-collaboration
+      - public-report-output
+
+  ops_area:
+    allowed:
+      - agent-governance
+      - learning-capture
+      - wiki-runtime
+      - report-quality
+      - meeting-notes
+      - source-intake
+      - workflow-trace
+
+path_rules:
+  wiki/ops:
+    required:
+      - layer
+      - domain
+      - ops_area
+    layer: ops
+    domain_policy: none_or_real_domain_or_unclassified
+
+  wiki/domains:
+    required:
+      - layer
+      - domain
+    layer: domains
+    domain_policy: required_real_domain
+
+  wiki/sources:
+    required:
+      - layer
+      - domain
+    layer: sources
+    domain_policy: real_domain_or_unclassified
+
+severity:
+  forbidden_domain: error
+  missing_required_field: error
+  unexpected_field_value: error
+  missing_ops_area_on_ops_page: error
+  missing_domain_on_sample_ops_page: error
+  producer_hardcoded_forbidden_domain: error
+  unclassified_without_flag: error
+  unknown_domain: warn
+  missing_layer_on_legacy_page: warn
+  possible_unregistered_producer: warn
+
+producer_paths:
+  templates:
+    - wiki/templates/*.md
+    - .codex/skills/**/references/*template*.md
+  scripts:
+    - scripts/inbox_intake.py
+
+sample_migration_paths:
+  - wiki/ops/behavior-replay-gate.md
+  - wiki/ops/learning-capture-routing.md
+  - wiki/ops/agent-readable-wiki-semantic-scoring.md
+  - wiki/ops/nirvana-协议支付涅槃需求文档-intake.md
+  - wiki/ops/nirvana-preview-intake.md
+
+strict_gate:
+  enabled: true
+  minimum_pass_score: 100
+  blocking_severities:
+    - error
+  rule_sets:
+    whole_wiki:
+      path_globs:
+        - wiki/**/*.md
+      required:
+        - layer
+        - domain
+    ops_pages:
+      path_globs:
+        - wiki/ops/**/*.md
+      required:
+        - ops_area
+        - canonical_object
+        - artifact_type
+      expected:
+        layer: ops
+    adr_pages:
+      path_globs:
+        - wiki/adr/**/*.md
+      required:
+        - canonical_object
+        - artifact_type
+      expected:
+        layer: adr
+        domain: none
+    source_pages:
+      path_globs:
+        - wiki/sources/**/*.md
+      required:
+        - source_type
+      expected:
+        layer: sources
+
+scorecard:
+  dimensions:
+    completeness: 40
+    taxonomy_validity: 25
+    identity_coverage: 20
+    relation_shape: 15
