@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-19T11:11:15.153989+00:00",
+  "generated_at": "2026-05-19T11:18:42.034807+00:00",
   "root": "/mnt/d/cloud/LLM-WIKI",
   "summary": {
     "wiki_page_count": 22,
@@ -183,8 +183,8 @@
     {
       "path": "wiki/ops/2026-05-19-175609-readme-gate-review.md",
       "section": "wiki/ops",
-      "sha256": "f476eda150e827ecd7ef6d34c6b6cd67c4818968b2fb566616fe7a54f3491d37",
-      "bytes": 3176,
+      "sha256": "9081bc06153dd7092906d9059efb1b8785e08f7bb2cd701a7dbb65ba1536992d",
+      "bytes": 3648,
       "title": null,
       "domain": "wiki",
       "canonical_object": "llm-wiki-readme-quality-gate",

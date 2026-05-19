@@ -26,6 +26,9 @@ status: generated
   not as a flat tool list.
 - User-owned correction: governance gates should be table-shaped, and README
   must state the environment requirements an AI needs before operating.
+- User-owned correction: README must separately explain frontmatter and MOC
+  maintenance as part of the Medical Agent's value, not only mention medical
+  stages.
 
 ## Reference / Drift Correction
 
@@ -35,6 +38,8 @@ status: generated
   - governance design and gates second;
   - environment requirements after governance gates;
   - specialized skill loops third;
+  - Medical Agent frontmatter / graph / MOC maintenance as its own value
+    section;
   - Li Xiang / Luo Yonghao interview-to-H5 example as evidence-backed routing;
   - boundaries and entry points.
 
@@ -52,6 +57,9 @@ status: generated
   the primary operating model.
 - Medical-agent boundary: AI interprets case files; humans confirm key
   decisions; tools execute approved actions and leave recovery evidence.
+- Frontmatter / MOC boundary: low-risk page frontmatter repair requires
+  confirmed treatment; taxonomy, relation, MOC, and structural changes route to
+  surgery or OpenSpec and are not written by status or preview output.
 - Example boundary: the Li Xiang / Luo Yonghao case is a captured
   output-shape example with H5, `data.js`, source note, process record, and
   process snapshots; it is not a generic claim that every article becomes H5.

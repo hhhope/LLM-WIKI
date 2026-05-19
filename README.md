@@ -183,6 +183,21 @@ doctor -> review/confirm -> treatment or surgery -> recovery
 
 `wiki-medical-agent` 是正常入口；`wiki-doctor`、`wiki-review-decisions`、`wiki-treatment`、`wiki-surgery`、`wiki-recovery` 是阶段能力。AI 负责诊断和方案，人确认关键判断，工具只执行已批准动作，最后用 recovery 留痕。
 
+#### Frontmatter 与 MOC 维护
+
+Medical Agent 的价值不只是“发现页面有问题”，而是把 Wiki 的结构健康收敛成可确认、
+可执行、可复查的病例。
+
+| 维护面 | Medical Agent 做什么 | 写入边界 |
+|---|---|---|
+| Frontmatter | 发现缺字段、错分类、taxonomy 漂移和低风险补全候选。 | 低风险页面 frontmatter 只能在确认后由 treatment 写；taxonomy 配置变更走 OpenSpec。 |
+| Relations / Graph | 检查 canonical object、关系解析、relation coverage 和漂移。 | 诊断和 review 只产出候选；结构性关系变更进入 surgery 或 OpenSpec。 |
+| MOC Projection | 根据 graph/frontmatter 预览 Obsidian MOC 候选、孤儿页和应创建/更新的导航页。 | status 和 medical preview 不直接写 `wiki/moc`；MOC 写入需要单独批准的生成/手术路径。 |
+| Recovery | 复查 frontmatter、状态面、MOC 预览和病例记录是否一致。 | recovery 只留痕和报告，不把 preview 自动升级成批准。 |
+
+这就是 medical loop 的核心作用：把“页面能不能被 Agent 读懂、能不能进入图谱、
+能不能投影成 MOC、能不能被下一轮复用”变成病例状态，而不是靠一次性人工整理。
+
 ### 4. Reader-Facing Output
 
 负责把材料变成读者面产物，而不是把内部草稿直接发布。

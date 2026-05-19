@@ -214,6 +214,22 @@ doctor -> review/confirm -> treatment or surgery -> recovery
 are stage capabilities. AI diagnoses and proposes; humans confirm key
 decisions; tools execute approved actions; recovery records evidence.
 
+#### Frontmatter And MOC Maintenance
+
+The Medical Agent is valuable because it turns wiki structure health into a
+case file that can be confirmed, executed, and checked again.
+
+| Surface | What the Medical Agent does | Write boundary |
+|---|---|---|
+| Frontmatter | Finds missing fields, wrong classifications, taxonomy drift, and low-risk completion candidates. | Low-risk page frontmatter is written only after confirmation through treatment; taxonomy config changes go through OpenSpec. |
+| Relations / Graph | Checks canonical objects, graph parsing, relation coverage, and drift. | Diagnosis and review produce candidates only; structural relation changes route to surgery or OpenSpec. |
+| MOC Projection | Previews Obsidian MOC candidates, orphan pages, and navigation pages to create or update from graph/frontmatter. | Status and medical previews do not write `wiki/moc`; MOC writes require a separately approved generator or surgery path. |
+| Recovery | Rechecks frontmatter, status surfaces, MOC preview, and case records for consistency. | Recovery records evidence and reports state; it does not turn preview output into approval. |
+
+This is the core medical-loop value: whether a page can be read by agents,
+enter the graph, project into MOC, and be reused by the next session becomes
+case state instead of one-off manual cleanup.
+
 ### 4. Reader-Facing Output
 
 Turns material into reader-facing artifacts without publishing internal drafts.
