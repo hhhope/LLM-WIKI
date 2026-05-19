@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-05-19T10:21:02.257526+00:00",
+  "generated_at": "2026-05-19T11:05:04.110466+00:00",
   "root": "/mnt/d/cloud/LLM-WIKI",
   "summary": {
-    "wiki_page_count": 17,
-    "source_record_count": 2,
+    "wiki_page_count": 22,
+    "source_record_count": 3,
     "inbox_file_count": 0,
     "pending_inbox_count": 0,
-    "active_change_count": 1,
-    "complete_change_count": 1,
+    "active_change_count": 0,
+    "complete_change_count": 3,
     "wiki_sections": {
       "wiki/adr": 2,
       "wiki/domains": 1,
-      "wiki/examples": 2,
-      "wiki/ops": 6,
+      "wiki/examples": 5,
+      "wiki/ops": 7,
       "wiki/reports": 1,
       "wiki/root": 1,
-      "wiki/sources": 3,
+      "wiki/sources": 4,
       "wiki/timeline": 1
     }
   },
@@ -74,13 +74,71 @@
     {
       "path": "wiki/examples/index.md",
       "section": "wiki/examples",
-      "sha256": "cf372d450ec69f98acb075bf06d5d648b94054f75b282e10f16a53b53072c11f",
-      "bytes": 108,
+      "sha256": "779e963ac88537bc3dbcf4e7dbc99e10082e48861e8dd44b971f116c080f83a1",
+      "bytes": 448,
       "title": null,
       "domain": "none",
       "canonical_object": null,
       "artifact_type": null,
       "status": null,
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/examples/interview-deep-reading-board-lixiang-luoyonghao/process/agentic-product-engineering-collaboration-our-operating-system-report-gate-review.md",
+      "section": "wiki/examples",
+      "sha256": "a4a1530f9478aac6244f1424b08cfbcf677adb175291d8ed80cc2a88263f0a6d",
+      "bytes": 24125,
+      "title": "agentic-product-engineering-collaboration-our-operating-system report gate review",
+      "domain": "public-report-output",
+      "canonical_object": "agentic-product-engineering-collaboration-our-operating-system",
+      "artifact_type": "process-snapshot",
+      "status": "review-ready",
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/examples/interview-deep-reading-board-lixiang-luoyonghao/process/agentic-product-engineering-collaboration-workway-brainstorming-drift-2026-05-18.md",
+      "section": "wiki/examples",
+      "sha256": "b7e595365233b185fd7261dafe178a221659f46777747d2e2b13cdf5819684ce",
+      "bytes": 4699,
+      "title": "agentic-product-engineering-collaboration workway brainstorming drift 2026-05-18",
+      "domain": "public-report-output",
+      "canonical_object": "agentic-product-engineering-collaboration-workway-brainstorming-drift",
+      "artifact_type": "process-snapshot",
+      "status": "active",
+      "related_objects": [
+        "brainstorming-drift-wiki-trace",
+        "agentic-product-engineering-collaboration-our-operating-system",
+        "public-report-quality-gate"
+      ],
+      "related_sources": null,
+      "derived_from": [
+        "chat://2026-05-18/agentic-product-engineering-collaboration-workway-drift",
+        "wiki/reports/agentic-product-engineering-collaboration-our-operating-system.html"
+      ],
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/examples/interview-deep-reading-board-lixiang-luoyonghao.md",
+      "section": "wiki/examples",
+      "sha256": "64d34843761475bb3e3dea1db0bcd5f815c7af9d7d95c83f666d8c702fab6d78",
+      "bytes": 3067,
+      "title": "Li Xiang Interview Deep Reading Board Example",
+      "domain": "public-report-output",
+      "canonical_object": null,
+      "artifact_type": null,
+      "status": "validated",
       "related_objects": null,
       "related_sources": null,
       "derived_from": null,
@@ -125,8 +183,8 @@
     {
       "path": "wiki/ops/2026-05-19-175609-readme-gate-review.md",
       "section": "wiki/ops",
-      "sha256": "1e1ab85c703b3a7ed455566e946594dbd8d889f432de71c9fb5456146ab50547",
-      "bytes": 2049,
+      "sha256": "338e70bfe585aad9e36e8ba5d33caa53aa17067defec5703d80f76d128afcf7f",
+      "bytes": 3042,
       "title": null,
       "domain": "wiki",
       "canonical_object": "llm-wiki-readme-quality-gate",
@@ -149,6 +207,23 @@
       "canonical_object": "wiki-ops-index",
       "artifact_type": "index",
       "status": null,
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/ops/lixiang-luoyonghao-reading-board-example-process.md",
+      "section": "wiki/ops",
+      "sha256": "7bb0d42a9135d6e7d1a787fa1c5cc897562016aca7706b234a8e9e9594cc842e",
+      "bytes": 3773,
+      "title": null,
+      "domain": "public-report-output",
+      "canonical_object": "lixiang-luoyonghao-reading-board-example",
+      "artifact_type": "example-process",
+      "status": "captured",
       "related_objects": null,
       "related_sources": null,
       "derived_from": null,
@@ -242,10 +317,27 @@
       "related_reminders": null
     },
     {
+      "path": "wiki/sources/agentic-product-engineering-collaboration-lixiang-luoyonghao-ai-agent-reading-2026-05-18.md",
+      "section": "wiki/sources",
+      "sha256": "ff0040070724479d2011e15eed8ab29b770ebf0456332a5233773670e18350a8",
+      "bytes": 8934,
+      "title": "agentic-product-engineering-collaboration / lixiang-luoyonghao ai-agent reading",
+      "domain": "product-engineering-collaboration",
+      "canonical_object": "agentic-product-engineering-collaboration",
+      "artifact_type": "source-reading-note",
+      "status": "text-used-for-draft",
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
       "path": "wiki/sources/index.md",
       "section": "wiki/sources",
-      "sha256": "ad5ecee7161bd8a2ddd752df41c8a193ffb1e822a6a8ec9e5eb8a56e982d6fc1",
-      "bytes": 148,
+      "sha256": "f603d564f452f3f4105cb0a2cdc3803ea93374187f09c14109b943ebfc478143",
+      "bytes": 541,
       "title": null,
       "domain": "none",
       "canonical_object": null,
@@ -312,6 +404,13 @@
   ],
   "source_records": [
     {
+      "path": "wiki/sources/agentic-product-engineering-collaboration-lixiang-luoyonghao-ai-agent-reading-2026-05-18.md",
+      "source_path": null,
+      "source_type": "external-wechat-article",
+      "domain": "product-engineering-collaboration",
+      "status": "text-used-for-draft"
+    },
+    {
       "path": "wiki/sources/lixiang-interview-reading-sanitized.md",
       "source_path": null,
       "source_type": "public-interview-reference",
@@ -338,10 +437,18 @@
       "tasks_path": "openspec/changes/bootstrap-self-running-wiki-governance/tasks.md"
     },
     {
+      "change_id": "consolidate-learning-explore-gates",
+      "state": "complete",
+      "done_tasks": 7,
+      "open_tasks": 0,
+      "total_tasks": 7,
+      "tasks_path": "openspec/changes/consolidate-learning-explore-gates/tasks.md"
+    },
+    {
       "change_id": "repair-wiki-runtime-governance-entry",
-      "state": "active",
-      "done_tasks": 3,
-      "open_tasks": 2,
+      "state": "complete",
+      "done_tasks": 5,
+      "open_tasks": 0,
       "total_tasks": 5,
       "tasks_path": "openspec/changes/repair-wiki-runtime-governance-entry/tasks.md"
     }
@@ -349,34 +456,46 @@
   "product_status": {
     "contract_version": "1",
     "object_type_counts": {
-      "governance": 4,
+      "governance": 5,
       "output": 1,
-      "source": 3,
-      "unknown": 11
+      "source": 4,
+      "unknown": 15
     },
     "readiness_counts": {
       "accepted": 1,
-      "draft-only": 16
+      "draft-only": 21
     },
     "source_layer_counts": {
-      "ops": 6,
+      "ops": 7,
       "report": 1,
-      "source": 3,
-      "spec": 4,
-      "unknown": 5
+      "source": 4,
+      "spec": 5,
+      "unknown": 8
     },
     "identity_coverage": {
-      "with_identity": 8,
-      "missing_identity": 9
+      "with_identity": 12,
+      "missing_identity": 10
     },
     "relation_coverage": {
-      "with_relations": 0,
-      "missing_relations": 17
+      "with_relations": 1,
+      "missing_relations": 21
     },
     "unresolved_items": [
       {
         "type": "complete_openspec_change",
         "change_id": "bootstrap-self-running-wiki-governance",
+        "readiness_label": "unresolved",
+        "status_transition": "archive_review"
+      },
+      {
+        "type": "complete_openspec_change",
+        "change_id": "consolidate-learning-explore-gates",
+        "readiness_label": "unresolved",
+        "status_transition": "archive_review"
+      },
+      {
+        "type": "complete_openspec_change",
+        "change_id": "repair-wiki-runtime-governance-entry",
         "readiness_label": "unresolved",
         "status_transition": "archive_review"
       }
@@ -504,9 +623,9 @@
   "content_enrichment_health": {
     "status": "pass",
     "summary": {
-      "entry_count": 6,
+      "entry_count": 7,
       "review_needed_count": 0,
-      "high_confidence_count": 6,
+      "high_confidence_count": 7,
       "medium_confidence_count": 0,
       "low_confidence_count": 0
     },
@@ -520,8 +639,8 @@
   "content_adjudication_health": {
     "status": "review_needed",
     "summary": {
-      "candidate_count": 4,
-      "full_detail_count": 4,
+      "candidate_count": 5,
+      "full_detail_count": 5,
       "review_focus_count": 1,
       "taxonomy_candidate_count": 0,
       "drift_trace_count": 1
@@ -535,7 +654,7 @@
       {
         "type": "content_adjudication",
         "path": "wiki/adr/0001-seed-repo-boundaries.md",
-        "detail_ref": "detail-0004",
+        "detail_ref": "detail-0005",
         "problem": "review_needed",
         "review_reasons": [
           "adr_risk",
@@ -554,8 +673,8 @@
   "moc_projection_health": {
     "status": "drift",
     "summary": {
-      "candidate_count": 7,
-      "create_count": 7,
+      "candidate_count": 13,
+      "create_count": 13,
       "update_count": 0,
       "noop_count": 0,
       "orphan_count": 0
@@ -563,11 +682,47 @@
     "entries": [
       {
         "type": "moc_projection",
+        "path": "wiki/moc/domain-public-report-output.md",
+        "kind": "domain",
+        "key": "public-report-output",
+        "problem": "create",
+        "link_count": 3,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
         "path": "wiki/moc/domain-wiki.md",
         "kind": "domain",
         "key": "wiki",
         "problem": "create",
         "link_count": 5,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/object-agentic-product-engineering-collaboration-our-operating-system.md",
+        "kind": "object",
+        "key": "agentic-product-engineering-collaboration-our-operating-system",
+        "problem": "create",
+        "link_count": 1,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/object-agentic-product-engineering-collaboration-workway-brainstorming-drift.md",
+        "kind": "object",
+        "key": "agentic-product-engineering-collaboration-workway-brainstorming-drift",
+        "problem": "create",
+        "link_count": 1,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/object-lixiang-luoyonghao-reading-board-example.md",
+        "kind": "object",
+        "key": "lixiang-luoyonghao-reading-board-example",
+        "problem": "create",
+        "link_count": 1,
         "repair_route": "obsidian-moc-projection"
       },
       {
@@ -622,6 +777,24 @@
         "key": "wiki-review-decision-record",
         "problem": "create",
         "link_count": 1,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/relation-derived_from.md",
+        "kind": "relation",
+        "key": "derived_from",
+        "problem": "create",
+        "link_count": 2,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/relation-related_objects.md",
+        "kind": "relation",
+        "key": "related_objects",
+        "problem": "create",
+        "link_count": 3,
         "repair_route": "obsidian-moc-projection"
       }
     ],

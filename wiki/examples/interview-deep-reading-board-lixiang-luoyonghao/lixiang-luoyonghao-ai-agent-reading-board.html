@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>李想罗永浩访谈精读板</title>
+  <style>
+    @font-face {
+      font-family: "Noto Sans SC Local";
+      src: url("file:///mnt/c/Windows/Fonts/NotoSansSC-VF.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    :root {
+      --ink: #17202a;
+      --muted: #64707d;
+      --line: #ddd6c8;
+      --paper: #f6f2ea;
+      --panel: #fffdf8;
+      --cold: #246a86;
+      --warm: #9a4f2d;
+      --green: #526f3a;
+      --shadow: 0 18px 48px rgba(40, 43, 48, 0.13);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.68), rgba(246, 242, 234, 0.94)),
+        var(--paper);
+      font-family: "Noto Sans SC Local", "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      letter-spacing: 0;
+    }
+
+    .app {
+      width: min(1480px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 26px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 18px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(23, 32, 42, 0.12);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 4.3vw, 58px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .meta {
+      margin-top: 10px;
+      max-width: 980px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .controls {
+      min-width: min(430px, 38vw);
+      padding: 14px;
+      border: 1px solid rgba(23, 32, 42, 0.12);
+      border-radius: 8px;
+      background: rgba(255, 253, 248, 0.88);
+    }
+
+    .controls label {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .temp-slider {
+      width: 100%;
+      margin-top: 12px;
+      accent-color: var(--warm);
+    }
+
+    .temp-scale {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.68fr) minmax(460px, 1fr) minmax(380px, 0.82fr);
+      gap: 18px;
+      min-height: 0;
+    }
+
+    .panel {
+      min-height: 0;
+      border: 1px solid rgba(23, 32, 42, 0.12);
+      border-radius: 8px;
+      background: rgba(255, 253, 248, 0.9);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid rgba(23, 32, 42, 0.1);
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .panel-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .reading-spine {
+      position: relative;
+      height: min(74vh, 760px);
+      min-height: 580px;
+      overflow: auto;
+      padding: 14px 14px 20px 24px;
+    }
+
+    .reading-spine::before {
+      content: "";
+      position: absolute;
+      left: 22px;
+      top: 22px;
+      bottom: 22px;
+      width: 2px;
+      background: rgba(36, 106, 134, 0.2);
+    }
+
+    .spine-item {
+      position: relative;
+      display: block;
+      width: 100%;
+      margin: 0 0 10px;
+      padding: 11px 12px 12px 18px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .spine-item::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 18px;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: 2px solid var(--cold);
+      background: var(--panel);
+    }
+
+    .spine-item:hover,
+    .spine-item:focus-visible,
+    .spine-item.active {
+      outline: none;
+      border-color: rgba(36, 106, 134, 0.26);
+      background: rgba(36, 106, 134, 0.08);
+    }
+
+    .spine-item .step {
+      display: block;
+      color: var(--warm);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .spine-item b {
+      display: block;
+      margin-top: 4px;
+      font-size: 15px;
+      line-height: 1.38;
+    }
+
+    .spine-item span:last-child {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .temperature-rail {
+      position: relative;
+      height: min(74vh, 760px);
+      min-height: 580px;
+      padding: 58px 20px 28px;
+      overflow: auto;
+      background:
+        linear-gradient(90deg, rgba(36, 106, 134, 0.1), rgba(255, 253, 248, 0.2) 48%, rgba(154, 79, 45, 0.12)),
+        linear-gradient(180deg, rgba(23, 32, 42, 0.05) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 58px;
+    }
+
+    .axis {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      top: 22px;
+      height: 28px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .axis::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 16px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cold), #b0aa98, var(--warm));
+    }
+
+    .axis span:last-child {
+      float: right;
+    }
+
+    .temp-cursor {
+      position: absolute;
+      top: 52px;
+      bottom: 20px;
+      width: 2px;
+      background: rgba(23, 32, 42, 0.34);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .rail-row {
+      position: relative;
+      height: 148px;
+      border-top: 1px solid rgba(23, 32, 42, 0.08);
+    }
+
+    .rail-track {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(36, 106, 134, 0.25), rgba(154, 79, 45, 0.22));
+    }
+
+    .map-card {
+      position: absolute;
+      top: 50%;
+      width: min(250px, 42%);
+      min-height: 92px;
+      padding: 12px 13px;
+      border: 1px solid rgba(23, 32, 42, 0.12);
+      border-radius: 8px;
+      background: rgba(255, 253, 248, 0.92);
+      box-shadow: 0 10px 24px rgba(40, 43, 48, 0.12);
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: opacity 160ms ease, transform 160ms ease, border-color 160ms ease;
+      z-index: 2;
+    }
+
+    .map-card:hover,
+    .map-card:focus-visible,
+    .map-card.active {
+      outline: none;
+      border-color: rgba(154, 79, 45, 0.45);
+      transform: translate(-50%, -50%) scale(1.03);
+    }
+
+    .map-card.dimmed {
+      opacity: 0.24;
+    }
+
+    .map-card .tag {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .map-card b {
+      display: block;
+      margin-top: 5px;
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    .map-card span:last-child {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .detail {
+      height: min(74vh, 760px);
+      min-height: 580px;
+      overflow: auto;
+    }
+
+    .detail-body {
+      padding: 20px;
+    }
+
+    .kicker {
+      color: var(--warm);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .detail h2 {
+      margin: 6px 0 10px;
+      font-size: clamp(28px, 3vw, 42px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .detail-summary {
+      color: #2e3c48;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .temperature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0 4px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(154, 79, 45, 0.1);
+      color: var(--warm);
+      font-size: 13px;
+      font-weight: 760;
+    }
+
+    .block {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(23, 32, 42, 0.1);
+    }
+
+    .block h3 {
+      margin: 0 0 9px;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .block p,
+    .block li {
+      color: #2d3a45;
+      font-size: 14px;
+      line-height: 1.78;
+    }
+
+    .block ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .quote-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .quote {
+      margin: 0;
+      padding: 10px 12px;
+      border-left: 3px solid var(--cold);
+      background: rgba(36, 106, 134, 0.08);
+      color: #2d3a45;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      border: 1px solid rgba(23, 32, 42, 0.13);
+      border-radius: 999px;
+      background: rgba(255, 253, 248, 0.94);
+      padding: 6px 10px;
+      color: var(--ink);
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .chip:hover,
+    .chip:focus-visible {
+      outline: none;
+      border-color: var(--warm);
+      color: var(--warm);
+    }
+
+    @media (max-width: 1180px) {
+      header,
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .controls {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .reading-spine,
+      .temperature-rail,
+      .detail {
+        height: auto;
+        min-height: 520px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .app {
+        padding: 12px;
+      }
+
+      .temperature-rail {
+        min-height: 620px;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .axis {
+        left: 14px;
+        right: 14px;
+      }
+
+      .map-card {
+        width: 185px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <h1>李想 × 罗永浩访谈精读板</h1>
+        <div class="meta">一般版：先保留访谈推进和推理链。词云不再当主体，只作为关键词索引；横轴温度表示这段内容更偏系统架构，还是更偏人、组织和判断。</div>
+      </div>
+      <div class="controls" aria-label="温度筛选">
+        <label for="temperature">
+          <span>温度游标</span>
+          <span id="temperatureValue">50</span>
+        </label>
+        <input id="temperature" class="temp-slider" type="range" min="0" max="100" value="50" />
+        <div class="temp-scale">
+          <span>系统 / 效率 / 架构</span>
+          <span>人 / 组织 / 判断</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="panel-head">
+          <h2>原文脊柱</h2>
+          <p>按访谈顺序读。每个节点保留一个完整问题链，而不是抽成孤立关键词。</p>
+        </div>
+        <div id="spine" class="reading-spine"></div>
+      </section>
+
+      <section class="panel">
+        <div class="temperature-rail" aria-label="访谈温度地图">
+          <div class="axis"><span>冷：系统、效率、架构</span><span>热：人、组织、判断</span></div>
+          <div id="cursor" class="temp-cursor"></div>
+          <div id="map"></div>
+        </div>
+      </section>
+
+      <aside class="panel detail" aria-label="精读展开">
+        <div id="detail" class="detail-body"></div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="./lixiang-luoyonghao-ai-agent-reading-board-data.js"></script>
+  <script>
+    const fallbackSections = [
+      {
+        id: "learning-ai",
+        step: "01",
+        title: "先把 AI 真用起来",
+        temperature: 58,
+        y: 10,
+        summary: "访谈不是从概念定义开始，而是从李想过去两百多天的真实使用开始：自己装工具、推动同事用、观察谁真正把 AI 用进业务。",
+        evidence: ["过去两百多天最主要的是学 AI。", "从 Claude Code 到 OpenClaw 都是我来做起。"],
+        chain: [
+          "AI 不是听别人讲出来的认知，而是要在自己的任务里持续使用。",
+          "他先解决上手问题：给身边人装工具，让拒绝使用的人越过第一道门槛。",
+          "这为后面所有判断立了前提：只有真实使用者的反馈，才值得作为组织判断依据。"
+        ],
+        relation: "这一段是全篇入口。后面谈生产环境、人才标准、Agent 架构，都不是纯观点，而是从使用经验推出来。",
+        question: "我们精读时要问：他到底把哪些反馈当成了有效反馈？哪些只是工具热闹？",
+        keywords: ["Claude Code", "OpenClaw", "token", "上手门槛", "真实使用"]
+      },
+      {
+        id: "agent-production",
+        step: "02",
+        title: "Agent 不是搜索，它需要生产环境",
+        temperature: 24,
+        y: 20,
+        summary: "李想把普通 C 端搜索式 AI 和 Agent 区分开。Agent 的价值来自完整任务、真实生产环境、反馈链条和结果闭环。",
+        evidence: ["Agent 非常需要一个完整的工作生产环境。", "普通用户没有这种环境给反馈。"],
+        chain: [
+          "搜索式 AI 可以泛化回答问题，普通用户马上能理解。",
+          "Agent 要完成任务，必须进入文件、代码、业务流程、权限和反馈组成的环境。",
+          "没有环境，用户会觉得没意思；有环境，高强度使用者会把它变成业务重构工具。"
+        ],
+        relation: "这一段解释了为什么一个人公司不容易成立，也解释了为什么企业内部的业务环境反而能放大 Agent。",
+        question: "我们的本地工作流里，哪些环节已经有生产环境？哪些还只是聊天？",
+        keywords: ["Agent", "生产环境", "反馈", "闭环", "业务重构"]
+      },
+      {
+        id: "talent-standard",
+        step: "03",
+        title: "高 token 用户改变人才标准",
+        temperature: 76,
+        y: 30,
+        summary: "他观察公司内部 token 消耗前列的人，发现高价值使用者不一定符合旧组织里的顶级员工标准。AI 时代的人才评价不能急着沿用旧标准。",
+        evidence: ["没有白消耗的，非常有意思。", "不要裁人，AI 时代的人才标准大概率不一样。"],
+        chain: [
+          "token 消耗不是天然有效，但它能暴露谁在用 AI 重构真实业务。",
+          "一些旧标准下不擅长表达、拿不到资源的人，可能在 AI 工具和业务环境下突然变强。",
+          "所以裁员和人才筛选不能只按过去的表达、资源、岗位标签来做。"
+        ],
+        relation: "这一段把技术问题转成组织问题：AI 不是只提高效率，也改变谁有机会创造价值。",
+        question: "如果我们做精读输出，不能把这段压成“不要裁人”，重点是人才评价标准的迁移。",
+        keywords: ["token", "人才标准", "裁人", "专业人", "组织"]
+      },
+      {
+        id: "cowork-demo",
+        step: "04",
+        title: "协同、数据、价值衡量被做成 Demo",
+        temperature: 42,
+        y: 40,
+        summary: "高强度使用者提出三个系统问题：工作协同、数据获取、工作价值衡量。战略团队没有写传统 PRD，而是参考 Anthropic Cowork 做出可验证 Demo。",
+        evidence: ["工作协同、数据获取、工作价值怎么衡量。", "不做传统 PRD，直接做可验证 Demo。"],
+        chain: [
+          "个人效率提高之后，瓶颈转到跨软件、跨部门、跨数据的协同。",
+          "数据问题不是报表界面问题，而是 AI 如何进入更高维、更真实的数据环境。",
+          "战略团队把问题做成 Demo，再让 HR、数仓和工程团队验证，形成从判断到可运行对象的链条。"
+        ],
+        relation: "这是全篇最重要的组织案例：它把 Agent 从个人工具推到企业协作系统。",
+        question: "我们自己的资料、会议、日报和 wiki，是否也应该先做 Demo，而不是先写更长说明？",
+        keywords: ["工作协同", "数据", "数仓", "价值衡量", "Cowork", "Demo", "PRD"]
+      },
+      {
+        id: "agent-to-c",
+        step: "05",
+        title: "Agent to C：别再把一切叫记忆",
+        temperature: 34,
+        y: 50,
+        summary: "这段不是一个新关键词，而是 C 端 Agent 架构判断。李想先批评当前“记忆”更像上下文拼接，再把用户需求拆成五类。",
+        evidence: ["记忆是一个糟糕的定义。", "不是记忆，就是记录一下。", "用户会有 5 种需求。"],
+        chain: [
+          "他先从 Claude 的记忆体验说起：越用越差，因为历史被粗暴累加进上下文。",
+          "然后改写问题定义：不要问记忆怎么做，要问 C 端用户有哪些需求。",
+          "五类需求分别是泛化任务、泛化信息获取、精确控制、必要记录、个性化。",
+          "对应系统也分开：Agent 做任务，ChatBot 做信息，知识图谱做控制，RAG 做记录索引，简单参数做个性化。"
+        ],
+        relation: "这一段和前面的生产环境相连：Agent 不是万能入口；它只是五层需求中的一层。",
+        question: "精读这段要保留完整架构，不要拆成 Agent、记忆、ChatBot 几个碎词。",
+        keywords: ["Agent to C", "记忆", "上下文拼接", "五类需求", "ChatBot", "知识图谱", "RAG", "个性化"]
+      },
+      {
+        id: "determinism",
+        step: "06",
+        title: "泛化和确定性不能混在一起",
+        temperature: 28,
+        y: 60,
+        summary: "问天气的例子说明：通用 Agent 可以做泛化任务，但确定性控制和快速响应应该交给稳定接口、知识图谱和本地算力。",
+        evidence: ["问个上海天气，四五分钟过去了，毫无意义。", "选择了泛化，其实你就放弃了确定性。"],
+        chain: [
+          "用户问天气，不需要 Agent 花几分钟跑任务。",
+          "车内场景要求秒级、低成本、确定返回。",
+          "所以系统要拆层：泛化模型负责不确定任务，确定性需求交给稳定结构。"
+        ],
+        relation: "这是 Agent to C 架构的工程理由，也连接到后面的车内智能和海外适配。",
+        question: "我们的工具里哪些事情不该交给大模型？哪些应该沉到稳定接口？",
+        keywords: ["确定性", "精确控制", "天气例子", "知识图谱", "本地算力"]
+      },
+      {
+        id: "embodied-car",
+        step: "07",
+        title: "具身智能不是人形机器人独占",
+        temperature: 46,
+        y: 70,
+        summary: "李想把具身智能定义为物理世界里的机器拥有传感器、模型和处理器后开始工作。车、飞机、机器人都在这个连续谱里。",
+        evidence: ["物理世界里所有的机器，给了模型、大脑和眼睛。", "不是所有东西都非得是人形机器人。"],
+        chain: [
+          "他先把概念从人形机器人拉开，强调功能和效率。",
+          "车是具身智能的重要形态，自动驾驶是上半场，人形机器人是下半场。",
+          "底盘、线控、芯片、模型不是参数堆砌，而是感知到执行的系统。"
+        ],
+        relation: "这段把 Agent 架构从软件延伸到物理系统：同样是分层、闭环和确定性。",
+        question: "如果用于我们的协作主题，重点不是汽车硬件，而是“垂直系统优于泛化工具”。",
+        keywords: ["具身智能", "机器人", "底盘", "线控", "芯片", "系统闭环"]
+      },
+      {
+        id: "management-agent",
+        step: "08",
+        title: "Agent 改变管理里的方案机制",
+        temperature: 82,
+        y: 80,
+        summary: "李想讲自己的 Agent 工作法：先分析，再出多个方案，方案之间博弈和打分，优化后由人选择并执行。",
+        evidence: ["同时出多个方案，帮我打分。", "方案必须是可验证的。"],
+        chain: [
+          "AI 让领导不必一开始追求确定答案，而是先把方案空间打开。",
+          "多方案和反向意见降低了组织里只迎合领导的风险。",
+          "人没有退出判断，人的职责变成出好题、看证据、做选择。"
+        ],
+        relation: "这段回到人和组织：Agent 不只是自动化，也改变管理沟通方式。",
+        question: "我们的精读输出要区分：AI 出方案是过程，人做判断仍是责任。",
+        keywords: ["方案", "博弈", "打分", "反向意见", "可验证", "人做选择"]
+      },
+      {
+        id: "overseas-system",
+        step: "10",
+        title: "出海需要智能化系统通用能力",
+        temperature: 63,
+        y: 90,
+        summary: "出海段再次出现 Agent、ChatBot、知识图谱、记录、个性化。它们不是前面随口讲的功能，而是跨市场智能化的通用底座。",
+        evidence: ["Agent 加 ChatBot，再加知识图谱、记录和个性化。", "成熟前，智能化到了海外会变成负担。"],
+        chain: [
+          "智能车出海不只是卖车，还要适配地图、音乐、软件生态和当地利益链条。",
+          "如果智能化系统不能通用，每个市场都会变成高成本定制。",
+          "所以前面那套五层架构，在出海段再次变成战略能力。"
+        ],
+        relation: "这是全文的回环：Agent to C 架构不是一个产品功能，而是公司全球化能力的一部分。",
+        question: "这里要读出结构回环，而不是把出海单独当成汽车商业话题。",
+        keywords: ["出海", "智能化", "Agent", "ChatBot", "知识图谱", "记录", "个性化", "利益联盟"]
+      },
+      {
+        id: "coworker-agent",
+        step: "09",
+        title: "代码不是问题，但不重写飞书",
+        temperature: 52,
+        y: 86,
+        summary: "罗永浩追问：既然 AI 让代码量不再是问题，为什么不重做大型办公软件？李想的回答是：飞书擅长的继续用，自己只做更贴近内部生产环境的 Coworker 和稳定 Agent 底座。",
+        evidence: ["代码完全不是问题了。", "没有机会做得更好，就用它。", "所有员工工作在一个稳定的 Agent 上。"],
+        chain: [
+          "罗永浩把问题推到极致：如果代码量不再是门槛，企业是不是应该重写飞书这类大型软件。",
+          "李想没有走“全部重做”的路线，而是先判断专业 To B 软件已有优势：文档、多维表格、面试系统等如果飞书更好，就继续用。",
+          "真正要自建的是连接层和工作底座：内部定制 Coworker，让员工在稳定 Agent 上工作。",
+          "这个稳定 Agent 接子 Agent、飞书员工账号、数据、必要软件和 MCP，把外部工具与内部生产环境连接起来。",
+          "这段和前面的 Cowork Demo、Agent 生产环境是同一条线：不是为了自嗨重写软件，而是把 Agent 放进组织真实工作链。"
+        ],
+        window: [
+          "罗永浩先确认代码量已经不是问题，然后追问是否要按内部需求重做大型办公软件。",
+          "李想承认代码不再是主要问题，但强调他们对办公软件的理解不一定比飞书强。",
+          "他区分了两件事：成熟办公能力继续用飞书；内部要做的是 Coworker 定制版。",
+          "目标不是替换一切，而是让所有员工工作在稳定 Agent 上，并通过子 Agent、飞书账号、数据、MCP 和必要软件连成工作环境。",
+          "罗永浩再推一步：很多企业会因为代码效率高而兴奋地替换多年软件。李想后续把重点拉回用户价值，避免自嗨做系统。"
+        ],
+        relation: "这是前面“生产环境”和“工作协同”的落地版本：稳定 Agent 不是一个聊天入口，而是组织工作台和连接层。",
+        question: "这段不能压成“做 Coworker”。核心判断是：代码不是问题以后，真正的问题变成边界、专业能力、连接层和用户价值。",
+        keywords: ["代码量", "飞书", "Coworker", "稳定 Agent", "子 Agent", "MCP", "数据", "用户价值"]
+      }
+    ];
+
+    const sections = Array.isArray(window.readingWindows) ? window.readingWindows : fallbackSections;
+    const spine = document.getElementById("spine");
+    const map = document.getElementById("map");
+    const detail = document.getElementById("detail");
+    const slider = document.getElementById("temperature");
+    const cursor = document.getElementById("cursor");
+    const temperatureValue = document.getElementById("temperatureValue");
+    let selectedId = "w27-coworker-stable-agent";
+
+    function render() {
+      renderSpine();
+      renderMap();
+      selectSection(selectedId);
+      updateTemperature();
+    }
+
+    function renderSpine() {
+      spine.innerHTML = orderedSections().map((section) => `
+        <button class="spine-item" type="button" data-id="${section.id}">
+          <span class="step">${section.step}</span>
+          <b>${escapeHtml(section.title)}</b>
+          <span>${escapeHtml(section.summary)}</span>
+        </button>
+      `).join("");
+      spine.querySelectorAll(".spine-item").forEach((button) => {
+        button.addEventListener("click", () => selectSection(button.dataset.id));
+      });
+    }
+
+    function renderMap() {
+      map.innerHTML = orderedSections().map((section) => `
+        <div class="rail-row">
+          <div class="rail-track"></div>
+          <button class="map-card" type="button" data-id="${section.id}" style="left:${section.temperature}%">
+            <span class="tag">${section.step} · ${section.temperature}</span>
+            <b>${escapeHtml(section.title)}</b>
+            <span>${escapeHtml(section.summary)}</span>
+          </button>
+        </div>
+      `).join("");
+      map.querySelectorAll(".map-card").forEach((button) => {
+        button.addEventListener("click", () => selectSection(button.dataset.id));
+      });
+    }
+
+    function selectSection(id) {
+      selectedId = id;
+      const section = sections.find((item) => item.id === id);
+      if (!section) return;
+      document.querySelectorAll("[data-id]").forEach((node) => {
+        node.classList.toggle("active", node.dataset.id === id);
+      });
+      scrollChildInto(spine, spine.querySelector(`[data-id="${id}"]`));
+      const rail = map.closest(".temperature-rail");
+      const activeCard = map.querySelector(`[data-id="${id}"]`);
+      scrollChildInto(rail, activeCard ? activeCard.closest(".rail-row") : null);
+      slider.value = section.temperature;
+      updateTemperature(false);
+      detail.innerHTML = `
+        <div class="kicker">精读展开 · ${section.step}</div>
+        <h2>${escapeHtml(section.title)}</h2>
+        <p class="detail-summary">${escapeHtml(section.summary)}</p>
+        <div class="temperature-pill">温度 ${section.temperature} · ${temperatureLabel(section.temperature)}</div>
+
+        <div class="block">
+          <h3>关键短证</h3>
+          <div class="quote-list">${section.evidence.map((item) => `<p class="quote">${escapeHtml(item)}</p>`).join("")}</div>
+        </div>
+
+        <div class="block">
+          <h3>推理链</h3>
+          <ul>${section.chain.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </div>
+
+        ${section.window ? `
+        <div class="block">
+          <h3>段落窗口</h3>
+          <ul>${section.window.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </div>
+        ` : ""}
+
+        <div class="block">
+          <h3>前后关系</h3>
+          <p>${escapeHtml(section.relation)}</p>
+        </div>
+
+        <div class="block">
+          <h3>精读问题</h3>
+          <p>${escapeHtml(section.question)}</p>
+        </div>
+
+        <div class="block">
+          <h3>关键词索引</h3>
+          <div class="chips">${section.keywords.map((item) => `<button class="chip" type="button">${escapeHtml(item)}</button>`).join("")}</div>
+        </div>
+      `;
+    }
+
+    function updateTemperature(selectNearest = true) {
+      const value = Number(slider.value);
+      temperatureValue.textContent = value;
+      cursor.style.left = `${value}%`;
+      document.querySelectorAll(".map-card").forEach((card) => {
+        const section = sections.find((item) => item.id === card.dataset.id);
+        card.classList.toggle("dimmed", Math.abs(section.temperature - value) > 28);
+      });
+      if (selectNearest) {
+        const nearest = orderedSections().reduce((best, section) => {
+          const distance = Math.abs(section.temperature - value);
+          const bestDistance = Math.abs(best.temperature - value);
+          return distance < bestDistance ? section : best;
+        }, orderedSections()[0]);
+        if (nearest && nearest.id !== selectedId) selectSection(nearest.id);
+      }
+    }
+
+    function orderedSections() {
+      return [...sections].sort((a, b) => Number(a.step) - Number(b.step));
+    }
+
+    function scrollChildInto(container, child) {
+      if (!container || !child) return;
+      const top = child.offsetTop - container.clientHeight / 2 + child.clientHeight / 2;
+      container.scrollTop = Math.max(0, top);
+    }
+
+    function temperatureLabel(value) {
+      if (value < 35) return "偏系统架构";
+      if (value > 70) return "偏人和组织判断";
+      return "系统和组织之间";
+    }
+
+    function escapeHtml(value) {
+      return value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    slider.addEventListener("input", () => updateTemperature(true));
+    render();
+  </script>
+</body>
+</html>
