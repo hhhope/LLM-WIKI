@@ -1,3 +1,12 @@
+---
+layer: ops
+domain: wiki
+ops_area: wiki-runtime
+canonical_object: wiki-review-decision-record
+artifact_type: review-decision-record
+status: generated
+---
+
 # wiki-confirm Confirmation Record
 
 ## Source / 检查来源

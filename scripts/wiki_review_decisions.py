@@ -196,6 +196,15 @@ def render_review_decision_markdown(package: dict[str, Any], scan_root: Path | s
     generated_at = str(package.get("generated_at", "unknown"))
     detail_limit = "complete" if limit is None else str(limit)
     lines = [
+        "---",
+        "layer: ops",
+        "domain: wiki",
+        "ops_area: wiki-runtime",
+        "canonical_object: wiki-review-decision-record",
+        "artifact_type: review-decision-record",
+        "status: generated",
+        "---",
+        "",
         "# wiki-confirm Confirmation Record",
         "",
         "## Source / 检查来源",

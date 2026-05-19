@@ -8,18 +8,18 @@ status: generated
 
 # Wiki Status
 
-Generated at: `2026-05-19T08:09:54.692273+00:00`
+Generated at: `2026-05-19T08:40:47.651608+00:00`
 
 ## Summary
 
 | Metric | Value |
 | --- | --- |
-| Wiki pages | 14 |
+| Wiki pages | 16 |
 | Source records | 2 |
 | Inbox files | 0 |
 | Pending inbox files | 0 |
 | Active OpenSpec changes | 0 |
-| Complete active-dir changes | 0 |
+| Complete active-dir changes | 1 |
 
 ## Wiki Sections
 
@@ -28,7 +28,7 @@ Generated at: `2026-05-19T08:09:54.692273+00:00`
 | wiki/adr | 2 |
 | wiki/domains | 1 |
 | wiki/examples | 2 |
-| wiki/ops | 3 |
+| wiki/ops | 5 |
 | wiki/reports | 1 |
 | wiki/root | 1 |
 | wiki/sources | 3 |
@@ -42,33 +42,33 @@ Contract version: `1`
 
 | Object Type | Count |
 | --- | --- |
-| governance | 2 |
+| governance | 3 |
 | output | 1 |
 | source | 3 |
-| unknown | 8 |
+| unknown | 10 |
 
 ### Readiness
 
 | Readiness | Count |
 | --- | --- |
 | accepted | 1 |
-| draft-only | 13 |
+| draft-only | 15 |
 
 ### Source Layers
 
 | Source Layer | Count |
 | --- | --- |
-| ops | 3 |
+| ops | 5 |
 | report | 1 |
 | source | 3 |
-| spec | 2 |
+| spec | 3 |
 | unknown | 5 |
 
 ### Identity Coverage
 
 | Metric | Value |
 | --- | --- |
-| With identity | 5 |
+| With identity | 7 |
 | Missing identity | 9 |
 
 ### Relation Coverage
@@ -76,11 +76,11 @@ Contract version: `1`
 | Metric | Value |
 | --- | --- |
 | With relations | 0 |
-| Missing relations | 14 |
+| Missing relations | 16 |
 
 ### Unresolved Product Status Items
 
-- None
+- `bootstrap-self-running-wiki-governance`: complete_openspec_change (unresolved -> archive_review)
 
 ## Domain Taxonomy Health
 
@@ -90,15 +90,16 @@ Config: `wiki/config/frontmatter-taxonomy.yaml`
 | Severity | Count |
 | --- | --- |
 | error | 0 |
-| warn | 5 |
+| warn | 6 |
 | info | 0 |
-| total | 5 |
+| total | 6 |
 
 ### Taxonomy Drift Samples
 
 - `scripts/check_wiki_frontmatter.py` `warn` `possible_unregistered_producer`: File contains frontmatter-looking text but is not registered in producer_paths.
 - `scripts/wiki_medical_case.py` `warn` `possible_unregistered_producer`: File contains frontmatter-looking text but is not registered in producer_paths.
 - `scripts/wiki_moc_projection.py` `warn` `possible_unregistered_producer`: File contains frontmatter-looking text but is not registered in producer_paths.
+- `scripts/wiki_review_decisions.py` `warn` `possible_unregistered_producer`: File contains frontmatter-looking text but is not registered in producer_paths.
 - `scripts/wiki_status_render.py` `warn` `possible_unregistered_producer`: File contains frontmatter-looking text but is not registered in producer_paths.
 - `scripts/wiki_treatment.py` `warn` `possible_unregistered_producer`: File contains frontmatter-looking text but is not registered in producer_paths.
 
@@ -116,7 +117,7 @@ Config: `wiki/config/frontmatter-taxonomy.yaml`
 | Dimension | Weight | Findings | Points Lost | Passed |
 | --- | --- | --- | --- | --- |
 | completeness | 40 | 0 | 0 | True |
-| taxonomy_validity | 25 | 5 | 25 | False |
+| taxonomy_validity | 25 | 6 | 25 | False |
 | identity_coverage | 20 | 0 | 0 | True |
 | relation_shape | 15 | 0 | 0 | True |
 
@@ -138,9 +139,9 @@ Status: `pass`
 
 | Metric | Value |
 | --- | --- |
-| Entries | 3 |
+| Entries | 5 |
 | Review needed | 0 |
-| High confidence | 3 |
+| High confidence | 5 |
 | Medium confidence | 0 |
 | Low confidence | 0 |
 
@@ -175,8 +176,8 @@ Status: `drift`
 
 | Metric | Value |
 | --- | --- |
-| Candidates | 4 |
-| Create | 4 |
+| Candidates | 6 |
+| Create | 6 |
 | Update | 0 |
 | Noop | 0 |
 | Orphan | 0 |
@@ -187,6 +188,8 @@ Status: `drift`
 - `wiki/moc/object-llm-wiki-core-product-contract.md` `create` kind=`object` key=`llm-wiki-core-product-contract` route=`obsidian-moc-projection`
 - `wiki/moc/object-llm-wiki-self-evolution-medical-loop.md` `create` kind=`object` key=`llm-wiki-self-evolution-medical-loop` route=`obsidian-moc-projection`
 - `wiki/moc/object-seed-repo-boundaries.md` `create` kind=`object` key=`seed-repo-boundaries` route=`obsidian-moc-projection`
+- `wiki/moc/object-wiki-medical-case-file.md` `create` kind=`object` key=`wiki-medical-case-file` route=`obsidian-moc-projection`
+- `wiki/moc/object-wiki-review-decision-record.md` `create` kind=`object` key=`wiki-review-decision-record` route=`obsidian-moc-projection`
 
 MOC projection health is diagnostic only. Status does not write `wiki/moc` files.
 
@@ -198,8 +201,8 @@ MOC projection health is diagnostic only. Status does not write `wiki/moc` files
 
 | Change | State | Tasks | Path |
 | --- | --- | --- | --- |
-| none | - | - | - |
+| bootstrap-self-running-wiki-governance | complete | 7/7 | openspec/changes/bootstrap-self-running-wiki-governance/tasks.md |
 
 ## Next Actions
 
-- No generated status actions.
+- Review complete active-directory OpenSpec changes for archive readiness.

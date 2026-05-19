@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-05-19T08:09:54.692273+00:00",
+  "generated_at": "2026-05-19T08:40:47.651608+00:00",
   "root": "/mnt/d/cloud/LLM-WIKI",
   "summary": {
-    "wiki_page_count": 14,
+    "wiki_page_count": 16,
     "source_record_count": 2,
     "inbox_file_count": 0,
     "pending_inbox_count": 0,
     "active_change_count": 0,
-    "complete_change_count": 0,
+    "complete_change_count": 1,
     "wiki_sections": {
       "wiki/adr": 2,
       "wiki/domains": 1,
       "wiki/examples": 2,
-      "wiki/ops": 3,
+      "wiki/ops": 5,
       "wiki/reports": 1,
       "wiki/root": 1,
       "wiki/sources": 3,
@@ -174,6 +174,40 @@
       "related_reminders": null
     },
     {
+      "path": "wiki/ops/wiki-medical-cases/2026-05-19-081428-wiki-medical-case.md",
+      "section": "wiki/ops",
+      "sha256": "5029ec538b6d7f52db891e7fe28ccfe5da0b9f6769e76876eb540c2ab76040f0",
+      "bytes": 7764,
+      "title": null,
+      "domain": "wiki",
+      "canonical_object": "wiki-medical-case-file",
+      "artifact_type": "medical-case",
+      "status": "awaiting_confirmation",
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
+      "path": "wiki/ops/wiki-review-decisions/2026-05-19-081429-review-decisions.md",
+      "section": "wiki/ops",
+      "sha256": "5920810203f8951239629792dad2cbded292a723168874da0d9c02813eca169a",
+      "bytes": 7810,
+      "title": null,
+      "domain": "wiki",
+      "canonical_object": "wiki-review-decision-record",
+      "artifact_type": "review-decision-record",
+      "status": "generated",
+      "related_objects": null,
+      "related_sources": null,
+      "derived_from": null,
+      "validates": null,
+      "related_focus_threads": null,
+      "related_reminders": null
+    },
+    {
       "path": "wiki/reports/index.md",
       "section": "wiki/reports",
       "sha256": "cfdb29b7ae653ba2a93d7eb3b930ea70e18b5482dcbeb3a35081dbcaff980418",
@@ -277,35 +311,51 @@
   ],
   "inbox_files": [],
   "pending_inbox_files": [],
-  "openspec_changes": [],
+  "openspec_changes": [
+    {
+      "change_id": "bootstrap-self-running-wiki-governance",
+      "state": "complete",
+      "done_tasks": 7,
+      "open_tasks": 0,
+      "total_tasks": 7,
+      "tasks_path": "openspec/changes/bootstrap-self-running-wiki-governance/tasks.md"
+    }
+  ],
   "product_status": {
     "contract_version": "1",
     "object_type_counts": {
-      "governance": 2,
+      "governance": 3,
       "output": 1,
       "source": 3,
-      "unknown": 8
+      "unknown": 10
     },
     "readiness_counts": {
       "accepted": 1,
-      "draft-only": 13
+      "draft-only": 15
     },
     "source_layer_counts": {
-      "ops": 3,
+      "ops": 5,
       "report": 1,
       "source": 3,
-      "spec": 2,
+      "spec": 3,
       "unknown": 5
     },
     "identity_coverage": {
-      "with_identity": 5,
+      "with_identity": 7,
       "missing_identity": 9
     },
     "relation_coverage": {
       "with_relations": 0,
-      "missing_relations": 14
+      "missing_relations": 16
     },
-    "unresolved_items": []
+    "unresolved_items": [
+      {
+        "type": "complete_openspec_change",
+        "change_id": "bootstrap-self-running-wiki-governance",
+        "readiness_label": "unresolved",
+        "status_transition": "archive_review"
+      }
+    ]
   },
   "domain_taxonomy_health": {
     "status": "drift",
@@ -313,9 +363,9 @@
     "taxonomy_version": 1,
     "summary": {
       "error": 0,
-      "warn": 5,
+      "warn": 6,
       "info": 0,
-      "total": 5
+      "total": 6
     },
     "strict_gate": {
       "enabled": true,
@@ -342,7 +392,7 @@
         {
           "dimension": "taxonomy_validity",
           "weight": 25,
-          "finding_count": 5,
+          "finding_count": 6,
           "points_lost": 25,
           "passed": false
         },
@@ -393,6 +443,15 @@
       {
         "kind": "possible_unregistered_producer",
         "severity": "warn",
+        "path": "scripts/wiki_review_decisions.py",
+        "message": "File contains frontmatter-looking text but is not registered in producer_paths.",
+        "field": null,
+        "value": null,
+        "dimension": "taxonomy_validity"
+      },
+      {
+        "kind": "possible_unregistered_producer",
+        "severity": "warn",
         "path": "scripts/wiki_status_render.py",
         "message": "File contains frontmatter-looking text but is not registered in producer_paths.",
         "field": null,
@@ -420,9 +479,9 @@
   "content_enrichment_health": {
     "status": "pass",
     "summary": {
-      "entry_count": 3,
+      "entry_count": 5,
       "review_needed_count": 0,
-      "high_confidence_count": 3,
+      "high_confidence_count": 5,
       "medium_confidence_count": 0,
       "low_confidence_count": 0
     },
@@ -470,8 +529,8 @@
   "moc_projection_health": {
     "status": "drift",
     "summary": {
-      "candidate_count": 4,
-      "create_count": 4,
+      "candidate_count": 6,
+      "create_count": 6,
       "update_count": 0,
       "noop_count": 0,
       "orphan_count": 0
@@ -483,7 +542,7 @@
         "kind": "domain",
         "key": "wiki",
         "problem": "create",
-        "link_count": 2,
+        "link_count": 4,
         "repair_route": "obsidian-moc-projection"
       },
       {
@@ -509,6 +568,24 @@
         "path": "wiki/moc/object-seed-repo-boundaries.md",
         "kind": "object",
         "key": "seed-repo-boundaries",
+        "problem": "create",
+        "link_count": 1,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/object-wiki-medical-case-file.md",
+        "kind": "object",
+        "key": "wiki-medical-case-file",
+        "problem": "create",
+        "link_count": 1,
+        "repair_route": "obsidian-moc-projection"
+      },
+      {
+        "type": "moc_projection",
+        "path": "wiki/moc/object-wiki-review-decision-record.md",
+        "kind": "object",
+        "key": "wiki-review-decision-record",
         "problem": "create",
         "link_count": 1,
         "repair_route": "obsidian-moc-projection"
