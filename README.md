@@ -2,280 +2,228 @@
 
 # LLM-WIKI
 
-一个基于 Karpathy「上下文工程」理念的 LLM-Wiki：把项目知识、运行规则、证据和
-维护流程组织成 Agent 可读取、可诊断、可复查的上下文底座。
+LLM-WIKI 是一个面向 AI 协作的项目上下文工程仓库。它将项目知识、来源证据、
+Agent Skills、治理规则和维护记录组织为可长期演进的 LLM-Wiki。
 
-它不是一个打包好的 `llm-wiki` 安装器，而是一个已经能跑起来的
-Wiki seed：仓库内置技能、frontmatter 分类规则、状态面、运行脚本和
-“医疗式”维护闭环，让 Agent 可以基于证据诊断、确认、修复和复查。
+项目目标不是保存 Markdown 文件，而是让人和 AI 在同一个知识结构上协作：
 
-## 这是什么
+- 人负责目标、判断、授权和验收；
+- AI 负责阅读材料、抽取结构、选择技能、生成产物、提出修复建议；
+- Wiki 负责保存证据、上下文、决策、样例和状态；
+- 治理体系负责限制写入、确认风险、复查结果。
 
-LLM-WIKI 是一套给 Agent 使用的项目知识底座。它把 Markdown Wiki 当作长期上下文，
-把技能、taxonomy、状态检查、图谱诊断和医疗式维护流程放在同一个仓库里，让 Agent
-不是只靠一次对话记忆工作，而是能持续读取、更新和验证项目知识。
+## 设计原则
 
-核心流程：
+### 上下文工程
 
-```text
-保留来源证据 -> 生成/整理 wiki 页面 -> 检查 taxonomy 和图谱
--> 诊断漂移 -> 确认安全改动 -> 治疗或手术 -> 复查
-```
+LLM-WIKI 采用 Karpathy 所说的 context engineering 思路：与其把上下文塞进一次对话，
+不如把项目知识整理成 Agent 可以持续读取和更新的结构。
 
-当前 seed 包含：
+### Skill 优先
 
-- `wiki/` 下的一组最小 Wiki 页面；
-- `.codex/skills/` 下的仓库本地技能；
-- 严格的 frontmatter taxonomy 配置；
-- status、graph、scorecard、context、routing、medical-loop 脚本；
-- 用于治理变更的 OpenSpec change 记录；
-- 能显示健康、漂移、阻塞和待确认状态的生成状态面。
+Agent 行动必须优先经过 `.codex/skills/`。Skills 定义了读取、写入、学习捕获、
+输出生成、诊断、复查和停止条件。批处理脚本只作为工具层存在，不承担判断职责。
 
-## 30 秒上手
+### 证据优先
 
-在仓库根目录执行：
+外部材料进入 Wiki 前需要保留来源边界。结论、方法和输出形态必须能回到来源或操作记录。
 
-```bash
-python3 scripts/build_wiki_status.py
-python3 scripts/check_wiki_frontmatter.py
-python3 scripts/extract_wiki_graph.py
-python3 scripts/build_wiki_medical_agent.py --intent-text "status"
-```
+### 人审优先
 
-优先看的入口：
+诊断、预览和建议不是写入许可。涉及结构、治理、规则或高风险输出时，需要人确认。
 
-- `wiki/status/wiki-status.md`：当前 Wiki 健康状态；
-- `AGENTS.md`：仓库本地 Agent 路由和停止规则；
-- `PROJECT.md`：项目身份；
-- `wiki/config/frontmatter-taxonomy.yaml`：Wiki frontmatter 规则；
-- `.codex/skills/wiki-medical-agent/SKILL.md`：医疗式维护的正常入口。
-
-## 项目结构
+## 三层协作治理
 
 ```text
-LLM-WIKI/
-├── AGENTS.md                         # 仓库本地 Agent 规则和运行门禁
-├── PROJECT.md                        # 项目身份和 source-of-truth 说明
-├── README.md                         # 中文入口
-├── README.en.md                      # 英文入口
-├── .codex/skills/                    # 仓库本地工作流和 wiki skills
-├── openspec/changes/                 # 活跃/完成的治理变更
-├── scripts/                          # 运行时诊断和生成脚本
-└── wiki/
-    ├── adr/                          # 稳定决策
-    ├── config/                       # taxonomy 和行为资产配置
-    ├── domains/                      # 领域索引
-    ├── examples/                     # 已验证的输出形态示例
-    ├── moc/                          # MOC 投影目标目录
-    ├── ops/                          # 医疗病例、轨迹、工作流证据
-    ├── reports/                      # 报告索引和报告输出
-    ├── sources/                      # 来源记录和脱敏证据
-    ├── status/                       # 生成状态面
-    ├── templates/                    # Wiki 页面模板
-    └── timeline/                     # 时间线索引和记录
+1. Human Review Layer
+   人给目标、做取舍、确认关键判断、验收结果。
+
+2. Agent Skill Layer
+   AI 通过 skills 读取上下文、判断边界、选择路径、生成产物、提出修复。
+
+3. Runtime Evidence Layer
+   Wiki、case file、status artifact、脚本输出负责记录证据和执行已批准动作。
 ```
 
-## 关键配置
+这三层共同决定一次操作是否可以继续。任何一层缺失，都不能声称完成。
 
-`wiki/config/frontmatter-taxonomy.yaml`
+## 四层上下文架构
 
-- 定义 Wiki layer、domain、ops_area 等分类规则。
-- 定义 strict gate 覆盖哪些 Wiki 页面。
-- 驱动 `scripts/check_wiki_frontmatter.py`。
+```text
+1. Source Layer
+   wiki/sources
+   保存文章、公众号、README、会议、访谈、项目材料等来源证据。
 
-`wiki/config/behavior-asset-evaluation.yaml`
+2. Context Layer
+   wiki/ops、wiki/examples、wiki/adr、wiki/status
+   保存工作流痕迹、输出样例、稳定决策和状态面。
 
-- 定义 skills、rules、AGENTS 等行为资产的评估要求。
-- 避免治理变更只停留在“文字好看”，要求留下证据。
+3. Skill Layer
+   .codex/skills
+   定义 Agent 的读取、学习、输出、诊断、治理和验证行为。
 
-`AGENTS.md`
+4. Governance Layer
+   AGENTS.md、OpenSpec、medical loop、frontmatter taxonomy
+   控制写入边界、变更生命周期、分类规则和复查要求。
+```
 
-- 说明 Agent 在本仓库里应该如何路由工作。
-- 明确 README 不是运行时权威。
-- 把维护工作指向 OpenSpec、Wiki 医疗闭环和验证命令。
+## 核心闭环一：Learning Capture
 
-`PROJECT.md`
+`learning-capture` 是外部信息进入 LLM-WIKI 的主入口。
 
-- 通过 frontmatter 提供项目身份。
-- 标记本仓库是一个可运行的 Wiki seed。
+它处理的问题不是“总结材料”，而是判断材料如何进入长期上下文：
 
-## 亮点技能
+- 是否需要保存为来源证据；
+- 是否形成可复用方法；
+- 是否成为输出样例；
+- 是否只能作为候选观察；
+- 是否需要进入 OpenSpec、medical loop 或 public report gate。
 
-仓库本地技能是 Agent 行动前应该使用的主要接口。
+典型路径：
 
-### Wiki Runtime
+```text
+文章 / 微信公众号 / README / 会议 / 访谈 / 项目材料
+-> learning-capture 判断来源类型和复用边界
+-> wiki/sources 保存证据
+-> wiki/ops 保存方法、决策和协作痕迹
+-> wiki/examples 保存可复用输出形态
+-> 后续 Agent 通过 wiki-query / wiki-context / wiki-route 重新利用
+```
 
-- `wiki-status`：刷新并汇总 `wiki/status/`。
-- `wiki-manifest`：检查 source 和 routing manifest。
-- `wiki-graph`：检查图谱抽取和关系健康度。
-- `wiki-scorecard`：检查语义评分和利用率诊断。
-- `wiki-context`、`wiki-route`、`wiki-apply`：检查运行时上下文、路由和
-  self-directed execution 建议。
+相关 skills：
 
-### 医疗闭环
+- `learning-capture`
+- `readme-learning-capture`
+- `weixin-reader`
+- `material-collaboration-defaults`
+- `interview-deep-reading-board`
+- `meeting-note-output`
+- `project-management-weekly-skill`
+- `public-report-quality-gate`
 
-- `wiki-medical-agent`：诊断、确认、治疗、手术、复查和归档检查的正常入口。
-- `wiki-doctor`、`wiki-confirm`、`wiki-treatment`、`wiki-surgery`、
-  `wiki-recovery`：阶段性证据面，主要用于显式检查或受控跟进。
-- `wiki-review-decisions`：从 adjudication 输出生成确认记录。
+## 核心闭环二：Agent Skills
 
-### 治理和变更流
+`.codex/skills/` 是 Agent 的操作层。它决定 Agent 在本仓库里如何行动。
 
-- `openspec-router`：在 OpenSpec、Superpowers、治理工作开始前先路由。
-- `openspec-propose`：创建 change artifacts。
-- `openspec-apply-change`：执行已批准的变更。
-- `openspec-archive-change`：只在 archive review 通过后归档。
-- `verify-before-claiming`：声明完成前必须有新鲜证据。
+主要 skill 分组：
 
-### 来源和输出
+- 上下文检索：`wiki-query`、`wiki-context`、`wiki-route`
+- 状态诊断：`wiki-status`、`wiki-manifest`、`wiki-graph`、`wiki-scorecard`
+- 受控建议：`wiki-apply`
+- Frontmatter：`wiki-frontmatter-taxonomy`
+- 治理变更：`openspec-router`、`openspec-propose`、`openspec-apply-change`、`openspec-archive-change`
+- 完成校验：`verify-before-claiming`
+- 协作约束：`clarify-before-acting`、`simplicity-first`、`surgical-changes`
 
-- `learning-capture`、`readme-learning-capture`：从文章、仓库、README、示例中捕获可复用学习。
-- `material-collaboration-defaults`：把来源材料路由为可读 Wiki 记录。
-- `public-report-quality-gate`：控制 README、docs、examples 和公开报告草稿等读者面输出。
-- `interview-deep-reading-board`、`meeting-note-output`、
-  `project-management-weekly-skill`：专门的输出工作流。
+## 核心闭环三：Medical Agent
 
-## 医疗式维护体系
-
-LLM-WIKI 用医疗隐喻限制 Agent 直接套用推测性修复。
+Medical Agent 是 Wiki 自维护的安全入口。
 
 ```text
 doctor -> review/confirm -> treatment or surgery -> recovery
 诊断   -> 确诊           -> 治疗 or 手术      -> 复查
 ```
 
-核心原则：**active case file 才是允许行动的权威**。预览、诊断、建议都不是写入许可。
+相关 skills：
 
-各阶段含义：
+- `wiki-medical-agent`
+- `wiki-doctor`
+- `wiki-confirm`
+- `wiki-review-decisions`
+- `wiki-treatment`
+- `wiki-surgery`
+- `wiki-recovery`
 
-- **Doctor / 诊断**：发现候选问题、漂移、弱证据和结构风险。
-- **Review / Confirm / 确诊**：判断哪些接受、拒绝、延期、可治疗、需手术或需 OpenSpec。
-- **Treatment / 治疗**：执行窄范围、明确批准、低风险的修复。
-- **Surgery / 手术**：规划结构、治理、taxonomy、ADR、relation、MOC 等更大改动。
-- **Recovery / 复查**：重跑检查，记录改了什么、还阻塞什么、下一步是什么。
+Medical Agent 的职责是把维护状态收敛到 case file。AI 根据 case file 判断当前状态，
+人确认关键决策，工具只执行已批准的窄操作并留下复查证据。
 
-命令返回 `awaiting_confirmation`、`preview_only` 或 `blocked` 是正常安全状态，
-不是应该隐藏的失败。
+## 示例：微信公众号文章到 H5/报告
 
-## 常用命令
+输入：一篇微信公众号文章。  
+目标：生成 H5 深度阅读、报告草稿、卡片或证据板。
 
-### 状态面
+推荐路径：
 
-```bash
-python3 scripts/build_wiki_status.py
+```text
+1. weixin-reader
+   获取或整理公众号材料，保留来源边界。
+
+2. learning-capture
+   判断材料是来源证据、方法参考、案例素材，还是候选观察。
+
+3. wiki/sources + wiki/ops
+   保存原始证据、摘要、可复用方法、争议点和后续动作。
+
+4. public-report-quality-gate / interview-deep-reading-board
+   根据读者目标选择输出门禁和结构。
+
+5. 输出产物
+   H5、报告、卡片、时间线、温度轴、证据板等进入目标产物路径或 wiki/examples。
+
+6. verify-before-claiming / medical loop
+   验证产物存在；如涉及结构或规则变更，进入 medical loop 或 OpenSpec。
 ```
 
-写入：
+这个流程体现的是 AI 共建：AI 不只是生成文字，而是负责阅读、抽取、判断、路由、生成、
+沉淀和复查；人负责目标、判断、授权和验收。
 
-- `wiki/status/manifest.json`
-- `wiki/status/wiki-status.md`
+## 项目结构
 
-### Frontmatter 检查
-
-```bash
-python3 scripts/check_wiki_frontmatter.py
+```text
+LLM-WIKI/
+├── AGENTS.md                         # Agent 在本仓库的运行规则
+├── PROJECT.md                        # 项目身份
+├── README.md                         # 中文入口
+├── README.en.md                      # 英文入口
+├── .codex/skills/                    # Agent Skills
+├── openspec/changes/                 # 治理/结构变更生命周期
+├── scripts/                          # 工具层：批处理、状态生成、检查
+└── wiki/
+    ├── sources/                      # 来源证据
+    ├── ops/                          # 工作流痕迹、医疗病例、治理证据
+    ├── examples/                     # 可复用输出形态
+    ├── adr/                          # 稳定决策
+    ├── config/                       # taxonomy 和行为资产配置
+    ├── status/                       # 生成状态面
+    ├── moc/                          # MOC 投影目标目录
+    ├── domains/                      # 领域索引
+    ├── reports/                      # 报告输出
+    ├── templates/                    # 页面模板
+    └── timeline/                     # 时间线
 ```
 
-声明 taxonomy 合规前必须跑。
+## 关键入口
 
-### 图谱抽取
-
-```bash
-python3 scripts/extract_wiki_graph.py
-python3 scripts/analyze_wiki_relations.py
-```
-
-用于检查 canonical objects、图谱解析健康度和 relation 漂移。
-
-### Scorecard 和运行时上下文
-
-```bash
-python3 scripts/score_wiki_semantics.py
-python3 scripts/summarize_wiki_scorecard.py
-python3 scripts/build_wiki_runtime_context.py
-python3 scripts/resolve_runtime_context_sources.py
-python3 scripts/derive_runtime_auto_routing.py
-python3 scripts/build_runtime_context_injection.py
-python3 scripts/derive_self_directed_execution.py
-```
-
-这些脚本是诊断面，不证明完全自治，也不是执行 queued work 的许可。
-
-### Medical Agent
-
-```bash
-python3 scripts/build_wiki_medical_agent.py --intent-text "status"
-```
-
-这是正常维护入口。
-
-### 医疗阶段命令
-
-```bash
-python3 scripts/build_wiki_medical_case.py
-python3 scripts/build_wiki_review_decisions.py
-python3 scripts/build_wiki_treatment.py
-python3 scripts/build_wiki_surgery.py
-python3 scripts/build_wiki_recovery.py
-```
-
-阶段命令受 case file 和仓库 gate 约束。不要把 preview 输出当作批准去写
-Wiki、taxonomy、ADR、MOC、OpenSpec 或 skill。
-
-## 当前 Seed 健康度
-
-这份 README 更新时的已验证基线：
-
-- frontmatter checker：`0` error，仍有非阻塞 producer warning；
-- graph extraction：能生成节点，但 relation coverage 还很薄；
-- medical agent：status reporting 可用，active case 仍是 `awaiting_confirmation`；
-- OpenSpec：自运行治理 bootstrap 已完成，下一步是 archive review，不是自动归档。
-
-最新状态请运行 `python3 scripts/build_wiki_status.py`，不要只信这份快照。
+- `AGENTS.md`：Agent 运行规则和停止条件；
+- `.codex/skills/`：Agent Skills；
+- `wiki/sources/`：来源证据；
+- `wiki/ops/`：协作、医疗、治理和方法记录；
+- `wiki/examples/`：可复用输出形态；
+- `wiki/status/wiki-status.md`：当前状态面；
+- `wiki/config/frontmatter-taxonomy.yaml`：页面分类规则。
 
 ## 边界
 
-- 这个 seed 复制的是系统形态，不是私有历史。
-- `wiki/sources/` 保存来源证据，不要用无来源总结替代。
-- README 面向读者解释项目；运行时权威在 `AGENTS.md`、repo-local skills、OpenSpec
-  changes 和生成状态面。
+- README 是读者入口，不是运行时权威。
+- 运行时权威在 `AGENTS.md`、skills、OpenSpec、case file 和 status artifacts。
+- 脚本输出是工具层证据，不是判断本身。
+- 外部学习不能直接升级成规则，必须经过 capture、证据和 gate。
 - 医疗闭环 preview 不是修复许可。
-- MOC projection、content enrichment、content adjudication、self-directed execution
-  都是诊断面；除非有批准的 workflow 明确授权，否则不写入。
 
 ## FAQ
 
-### 这和 `sdyckjq-lab/llm-wiki-skill` 是同一个项目吗？
+### AI 在这里承担什么职责？
 
-不是。那个项目是多平台个人知识库 skill，带安装器和素材适配器。本仓库是一个可运行的
-Wiki seed，重点是 repo-local governance、taxonomy 检查、OpenSpec 记录和医疗式维护。
+AI 负责阅读材料、提取结构、判断边界、选择 skills、生成产物、沉淀上下文、触发诊断和复查。
+人负责目标、取舍、授权和最终验收。
 
-### 可以用 Obsidian 打开吗？
+### 工具脚本承担什么职责？
 
-可以。Wiki 内容是 Markdown-first。部分生成诊断面主要给 Agent 读，但页面仍可作为普通
-Markdown 打开。
+工具脚本负责批量处理、结构化输出、状态生成、frontmatter 检查和 case file 刷新。它们不替代
+AI 判断，也不替代人审。
 
-### 它会自动修复自己吗？
+### 第一次应该看哪里？
 
-不会直接自动修。它可以诊断、建议、路由和验证。真正写入需要走正确 gate：窄修走已确认
-treatment，结构改动走 surgery/OpenSpec，写完再 recovery。
-
-### 第一次应该跑什么？
-
-```bash
-python3 scripts/build_wiki_status.py
-python3 scripts/build_wiki_medical_agent.py --intent-text "status"
-```
-
-然后看 `wiki/status/wiki-status.md` 和 medical agent 返回的 case path。
-
-### 新内容应该放哪里？
-
-- 来源证据：`wiki/sources/`
-- 工作流证据和医疗轨迹：`wiki/ops/`
-- 稳定决策：`wiki/adr/`
-- 已验证示例：`wiki/examples/`
-- 生成健康报告：`wiki/status/`
-
-创建或修改 Wiki frontmatter 时，遵循 `wiki/config/frontmatter-taxonomy.yaml`，
-并重新运行 checker。
+先看 `AGENTS.md`、`.codex/skills/`、`wiki/status/wiki-status.md`、`wiki/sources/`、
+`wiki/ops/`，再让 Agent 通过 `wiki-query`、`wiki-context` 或 `wiki-medical-agent`
+判断下一步。

@@ -2,310 +2,254 @@ English | [中文](README.md)
 
 # LLM-WIKI
 
-A Karpathy-style LLM-Wiki for context engineering: project knowledge, runtime
-rules, source evidence, and maintenance workflows are organized as an
-agent-readable context base that can be diagnosed and verified.
+LLM-WIKI is a project context-engineering repository for AI collaboration. It
+organizes project knowledge, source evidence, Agent Skills, governance rules,
+and maintenance records into a long-lived LLM-Wiki.
 
-This is not a packaged `llm-wiki` installer. It is a working seed repository:
-repo-local skills, frontmatter taxonomy, status surfaces, runtime scripts, and
-a medical-style maintenance loop live together so an agent can inspect,
-diagnose, repair, and verify the wiki with bounded evidence.
+The goal is not to store Markdown files. The goal is human-AI co-building on a
+shared knowledge structure:
 
-## What This Is
+- humans own goals, judgment, authorization, and acceptance;
+- AI reads material, extracts structure, selects skills, generates artifacts,
+  and proposes repairs;
+- the wiki stores evidence, context, decisions, examples, and status;
+- governance limits writes, confirms risk, and reviews results.
 
-LLM-WIKI is a project knowledge base for agents. It treats the Markdown wiki as
-long-lived context and keeps skills, taxonomy, status checks, graph diagnostics,
-and the medical maintenance loop in one repository, so an agent can keep
-reading, updating, and verifying project knowledge instead of relying only on a
-single chat window.
+## Design Principles
 
-Core flow:
+### Context Engineering
 
-```text
-preserve source evidence -> normalize wiki pages -> check taxonomy and graph
--> diagnose drift -> confirm safe changes -> treat or plan surgery -> recover
-```
+LLM-WIKI follows Karpathy’s context engineering idea: instead of forcing all
+context into a single chat window, organize project knowledge into a structure
+agents can keep reading and updating.
 
-The current seed includes:
+### Skill First
 
-- a small wiki under `wiki/`;
-- repo-local skills under `.codex/skills/`;
-- strict frontmatter taxonomy configuration;
-- status, graph, scorecard, context, routing, and medical-loop scripts;
-- OpenSpec change records for governance changes;
-- generated status artifacts that show what is healthy, drifting, blocked, or
-  awaiting confirmation.
+Agent actions go through `.codex/skills/` first. Skills define reading,
+writing, learning capture, output generation, diagnosis, recovery, and stop
+conditions. Batch scripts are only tools; they do not own judgment.
 
-## 30-Second Start
+### Evidence First
 
-From the repository root:
+External material keeps source boundaries before entering the wiki. Claims,
+methods, and output shapes must trace back to source evidence or operation
+records.
 
-```bash
-python3 scripts/build_wiki_status.py
-python3 scripts/check_wiki_frontmatter.py
-python3 scripts/extract_wiki_graph.py
-python3 scripts/build_wiki_medical_agent.py --intent-text "status"
-```
+### Human Review First
 
-Start with these surfaces:
+Diagnosis, previews, and suggestions are not write permission. Structural,
+governance, rule, or high-risk output changes require human confirmation.
 
-- `wiki/status/wiki-status.md`: current wiki health;
-- `AGENTS.md`: repo-local agent routing and stop rules;
-- `PROJECT.md`: project identity;
-- `wiki/config/frontmatter-taxonomy.yaml`: wiki frontmatter rules;
-- `.codex/skills/wiki-medical-agent/SKILL.md`: normal medical maintenance entry.
-
-## Project Structure
+## Three-Layer Collaboration Governance
 
 ```text
-LLM-WIKI/
-├── AGENTS.md                         # Repo-local agent rules and runtime gates
-├── PROJECT.md                        # Project identity and source-of-truth note
-├── README.md                         # Chinese entry
-├── README.en.md                      # English entry
-├── .codex/skills/                    # Repo-local workflow and wiki skills
-├── openspec/changes/                 # Active/completed governance changes
-├── scripts/                          # Runtime diagnostics and generators
-└── wiki/
-    ├── adr/                          # Stable decisions
-    ├── config/                       # Taxonomy and behavior-asset config
-    ├── domains/                      # Domain indexes
-    ├── examples/                     # Validated output-shape examples
-    ├── moc/                          # MOC projection target directory
-    ├── ops/                          # Medical cases, traces, workflow evidence
-    ├── reports/                      # Report index and report outputs
-    ├── sources/                      # Source records and sanitized evidence
-    ├── status/                       # Generated status artifacts
-    ├── templates/                    # Wiki page templates
-    └── timeline/                     # Timeline index and records
+1. Human Review Layer
+   Humans provide goals, tradeoffs, key confirmation, and acceptance.
+
+2. Agent Skill Layer
+   AI uses skills to read context, judge boundaries, choose routes, generate
+   artifacts, and propose repairs.
+
+3. Runtime Evidence Layer
+   Wiki pages, case files, status artifacts, and script output record evidence
+   and execute approved actions.
 ```
 
-## Key Configuration
+All three layers are required before an operation can be treated as complete.
 
-`wiki/config/frontmatter-taxonomy.yaml`
+## Four-Layer Context Architecture
 
-- Defines wiki layer, domain, and ops-area rules.
-- Defines which wiki pages are covered by the strict gate.
-- Drives `scripts/check_wiki_frontmatter.py`.
+```text
+1. Source Layer
+   wiki/sources
+   Stores evidence from articles, WeChat posts, READMEs, meetings, interviews,
+   and project materials.
 
-`wiki/config/behavior-asset-evaluation.yaml`
+2. Context Layer
+   wiki/ops, wiki/examples, wiki/adr, wiki/status
+   Stores workflow traces, output examples, stable decisions, and status
+   surfaces.
 
-- Defines evaluation expectations for skills, rules, AGENTS, and other
-  behavior assets.
-- Keeps governance changes evidence-oriented rather than cosmetic.
+3. Skill Layer
+   .codex/skills
+   Defines how agents read, learn, output, diagnose, govern, and verify.
 
-`AGENTS.md`
+4. Governance Layer
+   AGENTS.md, OpenSpec, medical loop, frontmatter taxonomy
+   Controls write boundaries, change lifecycle, classification rules, and
+   recovery requirements.
+```
 
-- Explains how agents should route work inside this repository.
-- Keeps README non-authoritative for runtime behavior.
-- Points maintenance work to OpenSpec, the wiki medical loop, and verification
-  commands.
+## Core Loop 1: Learning Capture
 
-`PROJECT.md`
+`learning-capture` is the main entry for external information.
 
-- Provides project identity through frontmatter.
-- Marks this repository as a runnable wiki seed.
+It does not simply summarize material. It decides how material should enter
+long-lived context:
 
-## Highlight Skills
+- should it be preserved as source evidence?
+- does it contain a reusable method?
+- should it become an output example?
+- is it only a candidate observation?
+- does it require OpenSpec, medical loop, or public report gate?
 
-Repo-local skills are the main interface an agent should use before acting.
+Typical path:
 
-### Wiki Runtime
+```text
+article / WeChat post / README / meeting / interview / project material
+-> learning-capture classifies source type and reuse boundary
+-> wiki/sources stores evidence
+-> wiki/ops stores methods, decisions, and collaboration traces
+-> wiki/examples stores reusable output shapes
+-> future agents reuse it through wiki-query / wiki-context / wiki-route
+```
 
-- `wiki-status`: refresh and summarize `wiki/status/`.
-- `wiki-manifest`: inspect source and routing manifest outputs.
-- `wiki-graph`: inspect graph extraction and relation health.
-- `wiki-scorecard`: inspect semantic scoring and utilization diagnostics.
-- `wiki-context`, `wiki-route`, `wiki-apply`: inspect bounded runtime context,
-  routing, and self-directed execution suggestions.
+Related skills:
 
-### Medical Loop
+- `learning-capture`
+- `readme-learning-capture`
+- `weixin-reader`
+- `material-collaboration-defaults`
+- `interview-deep-reading-board`
+- `meeting-note-output`
+- `project-management-weekly-skill`
+- `public-report-quality-gate`
 
-- `wiki-medical-agent`: the normal entry point for diagnosis, confirmation,
-  treatment, surgery, recovery, and archive checks.
-- `wiki-doctor`, `wiki-confirm`, `wiki-treatment`, `wiki-surgery`,
-  `wiki-recovery`: stage-specific evidence surfaces for explicit checks or
-  bounded follow-up.
-- `wiki-review-decisions`: builds confirmation records from adjudication output.
+## Core Loop 2: Agent Skills
 
-### Governance And Change Flow
+`.codex/skills/` is the agent operating layer. It determines how agents act in
+this repository.
 
-- `openspec-router`: routes OpenSpec, Superpowers, and governance work before
-  edits.
-- `openspec-propose`: creates change artifacts.
-- `openspec-apply-change`: implements an approved change.
-- `openspec-archive-change`: archives only after archive review passes.
-- `verify-before-claiming`: requires fresh evidence before completion claims.
+Main skill groups:
 
-### Source And Output Work
+- Context lookup: `wiki-query`, `wiki-context`, `wiki-route`
+- Status diagnosis: `wiki-status`, `wiki-manifest`, `wiki-graph`, `wiki-scorecard`
+- Bounded suggestions: `wiki-apply`
+- Frontmatter: `wiki-frontmatter-taxonomy`
+- Governance changes: `openspec-router`, `openspec-propose`,
+  `openspec-apply-change`, `openspec-archive-change`
+- Completion verification: `verify-before-claiming`
+- Collaboration guardrails: `clarify-before-acting`, `simplicity-first`,
+  `surgical-changes`
 
-- `learning-capture` and `readme-learning-capture`: capture reusable learning
-  from articles, repositories, README files, and examples.
-- `material-collaboration-defaults`: route source materials into readable wiki
-  records.
-- `public-report-quality-gate`: control reader-facing outputs such as README,
-  docs, examples, and public report drafts.
-- `interview-deep-reading-board`, `meeting-note-output`,
-  `project-management-weekly-skill`: specialized output workflows.
+## Core Loop 3: Medical Agent
 
-## Medical Maintenance Model
-
-LLM-WIKI uses a medical metaphor to keep agents from applying speculative
-repairs directly.
+Medical Agent is the safe entry for wiki self-maintenance.
 
 ```text
 doctor -> review/confirm -> treatment or surgery -> recovery
 诊断   -> 确诊           -> 治疗 or 手术      -> 复查
 ```
 
-Core rule: **the active case file is the authority for allowed action**. A
-preview, diagnosis, or suggestion is not write permission.
+Related skills:
 
-The stages mean:
+- `wiki-medical-agent`
+- `wiki-doctor`
+- `wiki-confirm`
+- `wiki-review-decisions`
+- `wiki-treatment`
+- `wiki-surgery`
+- `wiki-recovery`
 
-- **Doctor**: find candidate issues, drift, weak evidence, and structural risk.
-- **Review / Confirm**: decide what is accepted, rejected, deferred, safe for
-  treatment, surgery-required, or OpenSpec-required.
-- **Treatment**: apply narrow, explicitly approved, low-risk fixes.
-- **Surgery**: plan structural, governance, taxonomy, ADR, relation, or MOC
-  changes.
-- **Recovery**: rerun checks and record what changed, what remains blocked, and
-  the next action.
+Medical Agent converges maintenance state into a case file. AI interprets the
+case file, humans confirm key decisions, and tools execute only approved narrow
+actions while leaving recovery evidence.
 
-Commands may return `awaiting_confirmation`, `preview_only`, or `blocked`.
-Those are valid safety states, not failures to hide.
+## Example: WeChat Article To H5 / Report
 
-## Common Commands
+Input: a WeChat article.  
+Goal: generate an H5 deep-reading page, report draft, card, or evidence board.
 
-### Status
+Recommended path:
 
-```bash
-python3 scripts/build_wiki_status.py
+```text
+1. weixin-reader
+   Fetch or structure the WeChat material and preserve source boundaries.
+
+2. learning-capture
+   Decide whether the material is evidence, method reference, case material, or
+   candidate observation.
+
+3. wiki/sources + wiki/ops
+   Store source evidence, summaries, reusable methods, disputes, and next
+   actions.
+
+4. public-report-quality-gate / interview-deep-reading-board
+   Choose the output gate and structure from the reader goal.
+
+5. Output artifact
+   H5, report, card, timeline, temperature axis, or evidence board is written to
+   the target artifact path or wiki/examples.
+
+6. verify-before-claiming / medical loop
+   Verify the artifact exists. Route structural or rule changes to medical loop
+   or OpenSpec.
 ```
 
-Writes:
+This is AI co-building: AI reads, extracts, judges, routes, generates, captures,
+and reviews; humans own goals, judgment, authorization, and acceptance.
 
-- `wiki/status/manifest.json`
-- `wiki/status/wiki-status.md`
+## Project Structure
 
-### Frontmatter Check
-
-```bash
-python3 scripts/check_wiki_frontmatter.py
+```text
+LLM-WIKI/
+├── AGENTS.md                         # Agent rules for this repository
+├── PROJECT.md                        # Project identity
+├── README.md                         # Chinese entry
+├── README.en.md                      # English entry
+├── .codex/skills/                    # Agent Skills
+├── openspec/changes/                 # Governance/change lifecycle
+├── scripts/                          # Tool layer: batch processing and checks
+└── wiki/
+    ├── sources/                      # Source evidence
+    ├── ops/                          # Workflow traces, medical cases, governance evidence
+    ├── examples/                     # Reusable output shapes
+    ├── adr/                          # Stable decisions
+    ├── config/                       # Taxonomy and behavior-asset config
+    ├── status/                       # Generated status surfaces
+    ├── moc/                          # MOC projection target directory
+    ├── domains/                      # Domain indexes
+    ├── reports/                      # Report outputs
+    ├── templates/                    # Page templates
+    └── timeline/                     # Timeline records
 ```
 
-Run this before claiming taxonomy compliance.
+## Key Entry Points
 
-### Graph Extraction
-
-```bash
-python3 scripts/extract_wiki_graph.py
-python3 scripts/analyze_wiki_relations.py
-```
-
-Use these to inspect canonical objects, graph parse health, and relation drift.
-
-### Scorecard And Runtime Context
-
-```bash
-python3 scripts/score_wiki_semantics.py
-python3 scripts/summarize_wiki_scorecard.py
-python3 scripts/build_wiki_runtime_context.py
-python3 scripts/resolve_runtime_context_sources.py
-python3 scripts/derive_runtime_auto_routing.py
-python3 scripts/build_runtime_context_injection.py
-python3 scripts/derive_self_directed_execution.py
-```
-
-These scripts are diagnostic. They do not prove full autonomy and should not be
-treated as permission to execute queued work.
-
-### Medical Agent
-
-```bash
-python3 scripts/build_wiki_medical_agent.py --intent-text "status"
-```
-
-Use this as the normal maintenance entry.
-
-### Medical Stages
-
-```bash
-python3 scripts/build_wiki_medical_case.py
-python3 scripts/build_wiki_review_decisions.py
-python3 scripts/build_wiki_treatment.py
-python3 scripts/build_wiki_surgery.py
-python3 scripts/build_wiki_recovery.py
-```
-
-Stage commands are bounded by the case file and repo gates. Do not treat preview
-output as approval to write unrelated wiki, taxonomy, ADR, MOC, OpenSpec, or
-skill changes.
-
-## Current Seed Health
-
-Verified baseline at the time of this README update:
-
-- frontmatter checker: `0` errors, with non-blocking producer warnings
-  remaining;
-- graph extraction: nodes are generated, relation coverage is still thin;
-- medical agent: status reporting works, with the active case still
-  `awaiting_confirmation`;
-- OpenSpec: the self-running governance bootstrap is complete and ready for
-  archive review, not automatically archived.
-
-Run `python3 scripts/build_wiki_status.py` for the latest state instead of
-trusting this snapshot.
+- `AGENTS.md`: agent rules and stop conditions;
+- `.codex/skills/`: Agent Skills;
+- `wiki/sources/`: source evidence;
+- `wiki/ops/`: collaboration, medical, governance, and method records;
+- `wiki/examples/`: reusable output shapes;
+- `wiki/status/wiki-status.md`: current status surface;
+- `wiki/config/frontmatter-taxonomy.yaml`: page classification rules.
 
 ## Boundaries
 
-- This seed copies the system shape, not private history.
-- `wiki/sources/` preserves source evidence; do not replace it with unsourced
-  summaries.
-- README explains the project for readers. Runtime authority lives in
-  `AGENTS.md`, repo-local skills, OpenSpec changes, and generated status
-  artifacts.
-- Medical-loop previews are not permission to repair.
-- MOC projection, content enrichment, content adjudication, and self-directed
-  execution are diagnostic surfaces unless an approved workflow scopes a write.
+- README is a reader entry, not runtime authority.
+- Runtime authority lives in `AGENTS.md`, skills, OpenSpec, case files, and
+  status artifacts.
+- Script output is tool-layer evidence, not judgment.
+- External learning cannot become a rule directly; it must pass capture,
+  evidence, and the proper gate.
+- Medical previews are not repair permission.
 
 ## FAQ
 
-### Is this the same as `sdyckjq-lab/llm-wiki-skill`?
+### What does AI own here?
 
-No. That project is a multi-platform personal knowledge-base skill with
-installers and source adapters. This repository is a runnable wiki seed focused
-on repo-local governance, taxonomy checks, OpenSpec records, and medical-style
-maintenance.
+AI reads material, extracts structure, judges boundaries, selects skills,
+generates artifacts, captures context, and triggers diagnosis or recovery.
+Humans own goals, tradeoffs, authorization, and final acceptance.
 
-### Can I open it in Obsidian?
+### What do scripts own here?
 
-Yes. The wiki content is Markdown-first. Some generated diagnostics are aimed
-at agents, but the pages can still be opened as ordinary Markdown.
+Scripts handle batch processing, structured output, status generation,
+frontmatter checks, and case refreshes. They do not replace AI judgment or
+human review.
 
-### Does the wiki repair itself automatically?
+### Where should I start?
 
-No. It can diagnose, suggest, route, and verify. Actual writes require the right
-gate: confirmed treatment for narrow fixes, surgery/OpenSpec for structural
-changes, and recovery after writes.
-
-### What should I run first?
-
-```bash
-python3 scripts/build_wiki_status.py
-python3 scripts/build_wiki_medical_agent.py --intent-text "status"
-```
-
-Then inspect `wiki/status/wiki-status.md` and the case path returned by the
-medical agent.
-
-### Where should new content go?
-
-- Source evidence: `wiki/sources/`
-- Workflow evidence and medical traces: `wiki/ops/`
-- Stable decisions: `wiki/adr/`
-- Validated examples: `wiki/examples/`
-- Generated health reports: `wiki/status/`
-
-When creating or modifying wiki frontmatter, follow
-`wiki/config/frontmatter-taxonomy.yaml` and rerun the checker.
+Start with `AGENTS.md`, `.codex/skills/`, `wiki/status/wiki-status.md`,
+`wiki/sources/`, and `wiki/ops/`. Then let the agent choose the next route
+through `wiki-query`, `wiki-context`, or `wiki-medical-agent`.
