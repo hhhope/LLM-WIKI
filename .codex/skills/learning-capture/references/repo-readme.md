@@ -3,11 +3,6 @@
 Use this module for GitHub/GitLab repositories, README files, repo-level docs,
 or project structures used as learning inputs.
 
-## Delegate
-
-For full README/repo workflow details, load
-`.codex/skills/readme-learning-capture/SKILL.md`.
-
 ## Required Gates
 
 - Start from README or repo-level operating docs.
@@ -36,7 +31,5 @@ alone.
 
 ## Reference Files
 
-- Full skill: `.codex/skills/readme-learning-capture/SKILL.md`
-- Scorecard: `.codex/skills/readme-learning-capture/references/scorecard.md`
-- Pressure scenarios:
-  `.codex/skills/readme-learning-capture/references/pressure-scenarios.md`
+- Scorecard: `repo-readme-scorecard.md`
+- Pressure scenarios: `repo-readme-pressure-scenarios.md`

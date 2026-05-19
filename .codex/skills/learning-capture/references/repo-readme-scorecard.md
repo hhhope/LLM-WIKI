@@ -10,7 +10,7 @@ Do not score until the admission gate is recorded.
 | Source access | Repository, README, repo docs, or pasted equivalent is available | Maximum score 40; ask for source material before deep reading |
 | Source class | Classified as official repo, example repo, implementation reference, structure reference, or low-relevance/general-interest | Stop and classify before scoring |
 | Source grounding | README, key files, directory map, or retrieval-failure note exists | Maximum score 50 until grounding exists |
-| Local objective | User asks for reuse, adaptation, template, skill, workflow, wiki, or local transfer | Do not use this skill |
+| Local objective | User asks for reuse, adaptation, template, skill, workflow, wiki, or local transfer | Do not use this module |
 | Adaptation boundary | Local reuse can be separated from copying external structure wholesale | Maximum score 59 |
 
 ## Source Classes

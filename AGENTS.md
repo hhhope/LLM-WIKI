@@ -105,6 +105,11 @@ wiki-governance boundaries, and behavior-asset constraints.
 Use these repo-local skills when the request or implementation scope matches.
 They complement repo governance; they do not replace OpenSpec, medical-loop, or
 behavior-asset gates. This is the single repo-local runtime routing table.
+Before following a route, verify the named repo-local skill file exists. If a
+route names a missing local skill, stop and report the missing local skill.
+Do not continue as if the skill loaded, and do not treat a historical skill
+name, global skill, or prior chat memory as the active repo-local route.
+Historical skill name references are evidence only, not active routes.
 
 | Situation | Load | Ownership |
 |---|---|---|
@@ -118,7 +123,7 @@ behavior-asset gates. This is the single repo-local runtime routing table.
 | Medical-loop status, diagnosis, confirmation, treatment, surgery, recovery, or archive checks | `.codex/skills/wiki-medical-agent/SKILL.md` | single normal user-facing medical-loop entry |
 | Explicit legacy/debug medical stage evidence | `wiki-doctor`, `wiki-confirm`, `wiki-treatment`, `wiki-surgery`, or `wiki-recovery` stage skills | stage evidence only; ordinary use routes through `wiki-medical-agent` |
 | Wiki frontmatter, templates, or scripts that generate wiki frontmatter | `.codex/skills/wiki-frontmatter-taxonomy/SKILL.md` | taxonomy gate |
-| External articles, repos, READMEs, or examples used as learning/reference/adaptation material | `.codex/skills/learning-capture/SKILL.md`; use `readme-learning-capture` or `weixin-reader` when source shape matches | learning and source routing |
+| External articles, repos, READMEs, or examples used as learning/reference/adaptation material | `.codex/skills/learning-capture/SKILL.md`; use its repo/README, article, or example modules by source shape; use `weixin-reader` only as a source reader | learning and source routing |
 | Materials, reports, attachments, public artifacts, meeting notes, interviews, or project-management reports | matching material/public/meeting/interview/project-management skill | delivery-sensitive output gates |
 | Ambiguous request, speculative abstraction, narrow edit drift, or completion claim without fresh evidence | `clarify-before-acting`, `simplicity-first`, `surgical-changes`, or `verify-before-claiming` | guardrail skills |
 
