@@ -24,6 +24,8 @@ status: generated
   through `learning-capture`, not from `weixin-reader` as a fixed first step.
 - User-owned correction: featured skills must be presented as operating loops,
   not as a flat tool list.
+- User-owned correction: governance gates should be table-shaped, and README
+  must state the environment requirements an AI needs before operating.
 
 ## Reference / Drift Correction
 
@@ -31,6 +33,7 @@ status: generated
 - The corrected shape centers:
   - architecture first;
   - governance design and gates second;
+  - environment requirements after governance gates;
   - specialized skill loops third;
   - WeChat article to H5/report example as intent-first routing;
   - boundaries and entry points.
@@ -40,7 +43,7 @@ status: generated
 - Public artifact: yes, `README.md` and `README.en.md`.
 - Bilingual requirement: yes.
 - Reference-shaped output: yes, but adapted to this repo's own architecture.
-- Learning use map: `learning-capture`, `readme-learning-capture`,
+- Learning use map: `learning-capture`, repo/README module,
   `weixin-reader`, `public-report-quality-gate`,
   `interview-deep-reading-board`.
 - Judgment ownership: user corrected the framing; README now follows that
@@ -54,6 +57,9 @@ status: generated
 - Featured skills boundary: Skills are operating protocols for intake,
   retrieval, medical maintenance, reader-facing output, and governance
   promotion; they are not command wrappers.
+- Environment boundary: Python and OpenSpec are named as runtime requirements
+  for verification and governance; Python remains a tool layer, not the
+  decision layer.
 - Verification to run: read back both README files, check referenced paths,
   run frontmatter checker, inspect git status.
 

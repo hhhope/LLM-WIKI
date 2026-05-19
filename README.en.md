@@ -108,23 +108,45 @@ output does not automatically become fact, rule, or approval.
 
 Primary gates are split between input and output:
 
-- **Skill Gate**: agents match `.codex/skills/` before acting.
-- **Learning Gate**: external material enters through `learning-capture` with
-  source, reuse boundary, and target location.
-- **Frontmatter Gate**: wiki pages follow `wiki/config/frontmatter-taxonomy.yaml`.
-- **Public Output Gate**: README, H5, reports, and public examples go through
-  `public-report-quality-gate`.
-- **Medical Gate**: wiki self-maintenance goes through `wiki-medical-agent` and
-  case files.
-- **OpenSpec Gate**: governance, structure, and lifecycle changes go through
-  OpenSpec.
-- **Verification Gate**: completion claims go through `verify-before-claiming`
-  with fresh evidence.
+| Gate | Input / Output | What It Controls | Primary Authority |
+|---|---|---|---|
+| Skill Gate | Input | Agents match repo-local skills before acting; if the local skill file is missing, the route stops. | `.codex/skills/`, `AGENTS.md` |
+| Learning Gate | Input | External material is classified by source identity, reuse boundary, and target location. Repo/README learning also uses the `learning-capture` module. | `learning-capture`, `wiki/sources/`, `wiki/ops/` |
+| Frontmatter Gate | Input / Output | Wiki pages and generated artifacts follow taxonomy instead of drifting structurally. | `wiki/config/frontmatter-taxonomy.yaml` |
+| Public Output Gate | Output | README, H5, reports, and public examples pass reader intent, structure, citation, and judgment-ownership checks. | `public-report-quality-gate` |
+| Medical Gate | Output | Wiki self-maintenance converges into case files; preview output is not repair permission. | `wiki-medical-agent`, case files |
+| OpenSpec Gate | Output | Governance, structure, lifecycle, and behavior-asset changes require proposal, design, tasks, and verification evidence. | `openspec/changes/` |
+| Verification Gate | Output | Completion, sync, and runnable claims need fresh evidence. | `verify-before-claiming`, validation commands |
 
 Input gates decide whether material enters, what identity it has, and where it
 lands. Output gates decide whether artifacts can be published, rules can take
 effect, and governance changes can be recorded. They prevent plausible-looking
 AI output from becoming facts, rules, or structure without review.
+
+## Environment Requirements
+
+When handing this repository to an AI agent or a new collaborator, state these
+runtime conditions:
+
+| Requirement | Required? | Purpose | Notes |
+|---|---|---|---|
+| Git | Required | Branching, commits, sync, and evidence tracking. | README is not runtime authority; check git state around commits and pushes. |
+| Python 3 | Required | Runs wiki status, frontmatter, graph, scorecard, and medical-agent scripts. | Markdown can be read without Python, but the seed cannot be fully verified. |
+| OpenSpec CLI | Required for governance changes | Creates, validates, applies, and archives governance or behavior-asset changes. | Required when changing AGENTS, skills, taxonomy, or lifecycle rules. |
+| AI Agent / Codex | Required | Reads `AGENTS.md`, selects skills, judges boundaries, generates artifacts, and verifies outputs. | Python is the tool layer; judgment is AI plus human review. |
+| Repo-local skills | Required | Provide learning, output, medical, runtime, and governance routes. | If a local skill file is missing, do not continue as if it loaded. |
+
+Minimum startup path:
+
+```text
+1. Open the repository root.
+2. Read PROJECT.md and AGENTS.md first.
+3. Select .codex/skills/ by user intent.
+4. Route external material through learning-capture.
+5. Route reader-facing artifacts through public-report-quality-gate.
+6. Create an OpenSpec change before governance or behavior-asset edits.
+7. Run the relevant validation command before completion claims.
+```
 
 ## Featured Skills
 
@@ -149,8 +171,9 @@ Decides how external input enters long-lived context.
 
 - `learning-capture` is the router: material identity, reuse boundary, and
   landing place come first.
-- `readme-learning-capture` handles repo/README learning: transferable design
-  choices are extracted, structures that should not be copied are rejected.
+- `learning-capture/references/repo-readme.md` handles repo/README learning:
+  transferable design choices are extracted, structures that should not be
+  copied are rejected.
 - `weixin-reader` is a reader: it fetches WeChat article bodies into Markdown;
   it does not own later judgment.
 - `material-collaboration-defaults` handles meetings, attachments, report
@@ -245,7 +268,7 @@ Recommended path:
 2. Choose the reader by material shape
    If the source is mp.weixin.qq.com, call weixin-reader to fetch the body. If
    the material already lives in the repo, use material-collaboration-defaults.
-   If it is a README or repo, use readme-learning-capture.
+   If it is a README or repo, use the repo-readme module under learning-capture.
 
 3. Choose the artifact path by intent
    H5, report, card, evidence board, timeline, and temperature axis are not
