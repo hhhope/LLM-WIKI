@@ -2,23 +2,22 @@ English | [中文](README.md)
 
 # LLM-WIKI
 
-A runnable Markdown wiki seed maintained by agents.
+A Karpathy-style LLM-Wiki for context engineering: project knowledge, runtime
+rules, source evidence, and maintenance workflows are organized as an
+agent-readable context base that can be diagnosed and verified.
 
 This is not a packaged `llm-wiki` installer. It is a working seed repository:
 repo-local skills, frontmatter taxonomy, status surfaces, runtime scripts, and
 a medical-style maintenance loop live together so an agent can inspect,
 diagnose, repair, and verify the wiki with bounded evidence.
 
-This README follows the documentation shape of
-[`sdyckjq-lab/llm-wiki-skill`](https://github.com/sdyckjq-lab/llm-wiki-skill):
-positioning, quick start, highlights, structure, commands, and FAQ. The content
-is specific to `LLM-WIKI`; it does not copy that project's installer, platform
-matrix, graph demo, or optional source adapters.
-
 ## What This Is
 
-LLM-WIKI is a seed repository for maintaining a Markdown wiki through an agent
-workflow.
+LLM-WIKI is a project knowledge base for agents. It treats the Markdown wiki as
+long-lived context and keeps skills, taxonomy, status checks, graph diagnostics,
+and the medical maintenance loop in one repository, so an agent can keep
+reading, updating, and verifying project knowledge instead of relying only on a
+single chat window.
 
 Core flow:
 

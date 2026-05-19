@@ -2,21 +2,18 @@
 
 # LLM-WIKI
 
-一个可运行的、由 Agent 维护的 Markdown Wiki 种子仓库。
+一个基于 Karpathy「上下文工程」理念的 LLM-Wiki：把项目知识、运行规则、证据和
+维护流程组织成 Agent 可读取、可诊断、可复查的上下文底座。
 
 它不是一个打包好的 `llm-wiki` 安装器，而是一个已经能跑起来的
 Wiki seed：仓库内置技能、frontmatter 分类规则、状态面、运行脚本和
 “医疗式”维护闭环，让 Agent 可以基于证据诊断、确认、修复和复查。
 
-本文档参考了
-[`sdyckjq-lab/llm-wiki-skill`](https://github.com/sdyckjq-lab/llm-wiki-skill)
-的 README 组织方式：先说明定位，再给快速上手、亮点、结构、命令和 FAQ。
-但这里不会照搬它的安装器、多平台入口、图谱演示或可选素材适配器；下面内容只描述
-`LLM-WIKI` 当前仓库自己的结构和运行边界。
-
 ## 这是什么
 
-LLM-WIKI 是一个用于维护 Markdown Wiki 的 Agent 工作流种子仓库。
+LLM-WIKI 是一套给 Agent 使用的项目知识底座。它把 Markdown Wiki 当作长期上下文，
+把技能、taxonomy、状态检查、图谱诊断和医疗式维护流程放在同一个仓库里，让 Agent
+不是只靠一次对话记忆工作，而是能持续读取、更新和验证项目知识。
 
 核心流程：
 
