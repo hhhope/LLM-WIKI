@@ -2,129 +2,110 @@
 
 # LLM-WIKI
 
-LLM-WIKI 是一个面向 AI 协作的项目上下文工程仓库。它将项目知识、来源证据、
-Agent Skills、治理规则和维护记录组织为可长期演进的 LLM-Wiki。
+LLM-WIKI 是一个面向 AI 协作的项目上下文工程仓库。它把来源证据、项目知识、
+Agent Skills、治理规则和维护记录组织成一个可长期演进的 LLM-Wiki。
 
-项目目标不是保存 Markdown 文件，而是让人和 AI 在同一个知识结构上协作：
+它的目标不是搭一个 Markdown 文件夹，也不是展示一组脚本，而是让人和 AI 可以围绕同一套
+Wiki 结构持续共建：人提供目标、判断和授权；AI 通过 Skills 读取、学习、生成、沉淀和复查；
+Wiki 保存证据、上下文、决策和输出形态。
 
-- 人负责目标、判断、授权和验收；
-- AI 负责阅读材料、抽取结构、选择技能、生成产物、提出修复建议；
-- Wiki 负责保存证据、上下文、决策、样例和状态；
-- 治理体系负责限制写入、确认风险、复查结果。
+## 架构
 
-## 设计原则
+LLM-WIKI 的核心架构分四层。
 
-### 上下文工程
+```text
+1. Source Layer / 来源层
+   wiki/sources
+   保存公众号、文章、README、会议、访谈、项目材料等来源证据。
 
-LLM-WIKI 采用 Karpathy 所说的 context engineering 思路：与其把上下文塞进一次对话，
-不如把项目知识整理成 Agent 可以持续读取和更新的结构。
+2. Context Layer / 上下文层
+   wiki/ops、wiki/examples、wiki/adr、wiki/status
+   保存工作流痕迹、输出样例、稳定决策和状态面。
 
-### Skill 优先
+3. Skill Layer / 技能层
+   .codex/skills
+   定义 Agent 如何读取、学习、输出、诊断、治理和验证。
 
-Agent 行动必须优先经过 `.codex/skills/`。Skills 定义了读取、写入、学习捕获、
-输出生成、诊断、复查和停止条件。批处理脚本只作为工具层存在，不承担判断职责。
+4. Governance Layer / 治理层
+   AGENTS.md、OpenSpec、medical loop、frontmatter taxonomy
+   控制写入边界、变更生命周期、分类规则和复查要求。
+```
 
-### 证据优先
+这四层共同构成 LLM-WIKI：
 
-外部材料进入 Wiki 前需要保留来源边界。结论、方法和输出形态必须能回到来源或操作记录。
+- 来源层解决“AI 依据什么说”；
+- 上下文层解决“下一轮对话如何接上”；
+- 技能层解决“AI 应该怎么行动”；
+- 治理层解决“什么能改、谁确认、怎么复查”。
 
-### 人审优先
+## 治理设计
 
-诊断、预览和建议不是写入许可。涉及结构、治理、规则或高风险输出时，需要人确认。
+LLM-WIKI 的治理理念是：**AI 可以执行大量阅读、判断和生成工作，但关键判断必须有边界、有证据、有人审。**
 
-## 三层协作治理
+因此仓库采用三层协作治理：
 
 ```text
 1. Human Review Layer
    人给目标、做取舍、确认关键判断、验收结果。
 
 2. Agent Skill Layer
-   AI 通过 skills 读取上下文、判断边界、选择路径、生成产物、提出修复。
+   AI 通过 Skills 读取上下文、判断边界、选择路径、生成产物、提出修复。
 
 3. Runtime Evidence Layer
-   Wiki、case file、status artifact、脚本输出负责记录证据和执行已批准动作。
+   Wiki、case file、status artifact、工具输出负责记录证据和执行已批准动作。
 ```
 
-这三层共同决定一次操作是否可以继续。任何一层缺失，都不能声称完成。
+工具脚本属于第三层，只负责批量处理、状态生成、结构化记录和检查；它们不替代 AI 判断，也不替代人审。
 
-## 四层上下文架构
+### 门禁
 
-```text
-1. Source Layer
-   wiki/sources
-   保存文章、公众号、README、会议、访谈、项目材料等来源证据。
+LLM-WIKI 的主要门禁包括：
 
-2. Context Layer
-   wiki/ops、wiki/examples、wiki/adr、wiki/status
-   保存工作流痕迹、输出样例、稳定决策和状态面。
+- **Skill Gate**：Agent 行动前先匹配 `.codex/skills/`，不能绕过技能直接写。
+- **Learning Gate**：外部材料先经过 `learning-capture`，明确来源、复用边界和沉淀位置。
+- **Public Output Gate**：README、H5、报告、公开样例等读者面产物走 `public-report-quality-gate`。
+- **Frontmatter Gate**：Wiki 页面遵循 `wiki/config/frontmatter-taxonomy.yaml`。
+- **Medical Gate**：Wiki 自维护走 `wiki-medical-agent`，由 case file 管理状态。
+- **OpenSpec Gate**：治理、结构或生命周期变更走 OpenSpec。
+- **Verification Gate**：声明完成前走 `verify-before-claiming`，用新鲜证据复查。
 
-3. Skill Layer
-   .codex/skills
-   定义 Agent 的读取、学习、输出、诊断、治理和验证行为。
+这些门禁的目的不是增加流程，而是防止 AI 把“看起来合理的输出”直接升级为规则、结构或事实。
 
-4. Governance Layer
-   AGENTS.md、OpenSpec、medical loop、frontmatter taxonomy
-   控制写入边界、变更生命周期、分类规则和复查要求。
-```
+## 特色 Skills
 
-## 核心闭环一：Learning Capture
+### 1. Learning Capture 系列
 
-`learning-capture` 是外部信息进入 LLM-WIKI 的主入口。
+负责把外部输入变成长期上下文。
 
-它处理的问题不是“总结材料”，而是判断材料如何进入长期上下文：
+- `learning-capture`：外部文章、案例、材料的通用学习入口。
+- `readme-learning-capture`：针对 GitHub/GitLab README 和项目结构的学习入口。
+- `weixin-reader`：微信公众号材料读取入口。
+- `material-collaboration-defaults`：材料进入 Wiki 的默认协作路由。
 
-- 是否需要保存为来源证据；
-- 是否形成可复用方法；
-- 是否成为输出样例；
-- 是否只能作为候选观察；
-- 是否需要进入 OpenSpec、medical loop 或 public report gate。
+它们关注的是：
 
-典型路径：
+- 这份材料是否值得沉淀；
+- 应进入 `wiki/sources`、`wiki/ops` 还是 `wiki/examples`；
+- 哪些只是候选观察，不能升级成规则；
+- 后续 Agent 如何重新利用。
 
-```text
-文章 / 微信公众号 / README / 会议 / 访谈 / 项目材料
--> learning-capture 判断来源类型和复用边界
--> wiki/sources 保存证据
--> wiki/ops 保存方法、决策和协作痕迹
--> wiki/examples 保存可复用输出形态
--> 后续 Agent 通过 wiki-query / wiki-context / wiki-route 重新利用
-```
+### 2. Agent Context 系列
 
-相关 skills：
+负责让 Agent 从 Wiki 中取上下文，而不是只靠当前对话。
 
-- `learning-capture`
-- `readme-learning-capture`
-- `weixin-reader`
-- `material-collaboration-defaults`
-- `interview-deep-reading-board`
-- `meeting-note-output`
-- `project-management-weekly-skill`
-- `public-report-quality-gate`
+- `wiki-query`
+- `wiki-context`
+- `wiki-route`
+- `wiki-status`
+- `wiki-manifest`
+- `wiki-graph`
+- `wiki-scorecard`
 
-## 核心闭环二：Agent Skills
+它们让 Agent 可以先看已有状态、关系、上下文和路由建议，再决定下一步。
 
-`.codex/skills/` 是 Agent 的操作层。它决定 Agent 在本仓库里如何行动。
+### 3. Medical Loop 系列
 
-主要 skill 分组：
-
-- 上下文检索：`wiki-query`、`wiki-context`、`wiki-route`
-- 状态诊断：`wiki-status`、`wiki-manifest`、`wiki-graph`、`wiki-scorecard`
-- 受控建议：`wiki-apply`
-- Frontmatter：`wiki-frontmatter-taxonomy`
-- 治理变更：`openspec-router`、`openspec-propose`、`openspec-apply-change`、`openspec-archive-change`
-- 完成校验：`verify-before-claiming`
-- 协作约束：`clarify-before-acting`、`simplicity-first`、`surgical-changes`
-
-## 核心闭环三：Medical Agent
-
-Medical Agent 是 Wiki 自维护的安全入口。
-
-```text
-doctor -> review/confirm -> treatment or surgery -> recovery
-诊断   -> 确诊           -> 治疗 or 手术      -> 复查
-```
-
-相关 skills：
+负责 Wiki 自维护。
 
 - `wiki-medical-agent`
 - `wiki-doctor`
@@ -134,10 +115,43 @@ doctor -> review/confirm -> treatment or surgery -> recovery
 - `wiki-surgery`
 - `wiki-recovery`
 
-Medical Agent 的职责是把维护状态收敛到 case file。AI 根据 case file 判断当前状态，
-人确认关键决策，工具只执行已批准的窄操作并留下复查证据。
+医疗闭环：
 
-## 示例：微信公众号文章到 H5/报告
+```text
+doctor -> review/confirm -> treatment or surgery -> recovery
+诊断   -> 确诊           -> 治疗 or 手术      -> 复查
+```
+
+Medical Agent 的重点不是自动修复，而是把维护状态收敛到 case file：AI 判断，人确认，工具执行已批准动作，最后 recovery 留痕。
+
+### 4. Public Output 系列
+
+负责把材料加工成读者面产物。
+
+- `public-report-quality-gate`
+- `interview-deep-reading-board`
+- `meeting-note-output`
+- `project-management-weekly-skill`
+
+它们控制 README、H5、报告、访谈深读、会议纪要、项目周报等输出，避免把内部草稿直接当成可发布内容。
+
+### 5. Governance 系列
+
+负责结构性变更和完成声明。
+
+- `openspec-router`
+- `openspec-propose`
+- `openspec-apply-change`
+- `openspec-archive-change`
+- `wiki-frontmatter-taxonomy`
+- `verify-before-claiming`
+- `clarify-before-acting`
+- `simplicity-first`
+- `surgical-changes`
+
+这些 Skills 让治理变更有边界、有生命周期、有验证。
+
+## 案例：微信公众号文章到 H5 / 报告
 
 输入：一篇微信公众号文章。  
 目标：生成 H5 深度阅读、报告草稿、卡片或证据板。
@@ -161,11 +175,10 @@ Medical Agent 的职责是把维护状态收敛到 case file。AI 根据 case fi
    H5、报告、卡片、时间线、温度轴、证据板等进入目标产物路径或 wiki/examples。
 
 6. verify-before-claiming / medical loop
-   验证产物存在；如涉及结构或规则变更，进入 medical loop 或 OpenSpec。
+   验证产物存在；如涉及结构、规则或 Wiki 治理变更，进入 medical loop 或 OpenSpec。
 ```
 
-这个流程体现的是 AI 共建：AI 不只是生成文字，而是负责阅读、抽取、判断、路由、生成、
-沉淀和复查；人负责目标、判断、授权和验收。
+这个例子体现的是 AI 共建：AI 负责读材料、抽结构、判断边界、选择 Skill、生成产物、沉淀上下文和触发复查；人负责目标、取舍、授权和验收。
 
 ## 项目结构
 
@@ -192,7 +205,7 @@ LLM-WIKI/
     └── timeline/                     # 时间线
 ```
 
-## 关键入口
+## 入口
 
 - `AGENTS.md`：Agent 运行规则和停止条件；
 - `.codex/skills/`：Agent Skills；
@@ -205,25 +218,7 @@ LLM-WIKI/
 ## 边界
 
 - README 是读者入口，不是运行时权威。
-- 运行时权威在 `AGENTS.md`、skills、OpenSpec、case file 和 status artifacts。
-- 脚本输出是工具层证据，不是判断本身。
+- 运行时权威在 `AGENTS.md`、Skills、OpenSpec、case file 和 status artifacts。
+- 工具输出是证据，不是判断本身。
 - 外部学习不能直接升级成规则，必须经过 capture、证据和 gate。
-- 医疗闭环 preview 不是修复许可。
-
-## FAQ
-
-### AI 在这里承担什么职责？
-
-AI 负责阅读材料、提取结构、判断边界、选择 skills、生成产物、沉淀上下文、触发诊断和复查。
-人负责目标、取舍、授权和最终验收。
-
-### 工具脚本承担什么职责？
-
-工具脚本负责批量处理、结构化输出、状态生成、frontmatter 检查和 case file 刷新。它们不替代
-AI 判断，也不替代人审。
-
-### 第一次应该看哪里？
-
-先看 `AGENTS.md`、`.codex/skills/`、`wiki/status/wiki-status.md`、`wiki/sources/`、
-`wiki/ops/`，再让 Agent 通过 `wiki-query`、`wiki-context` 或 `wiki-medical-agent`
-判断下一步。
+- Medical preview 不是修复许可。

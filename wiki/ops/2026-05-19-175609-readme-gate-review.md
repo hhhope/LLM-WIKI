@@ -16,20 +16,18 @@ status: generated
   skills matter, and where learning / medical / governance loops live.
 - Main line: LLM-WIKI is a Karpathy-style context engineering system for
   human-AI wiki co-building.
-- Non-goals: script inventory as the primary story; generic Markdown wiki
-  positioning; installer-style README.
-- User-owned judgment: the README must foreground skill loops, AI
-  collaboration, learning-capture, and the WeChat-to-H5 style example.
+- Non-goals: script inventory as the primary story; Python-led positioning;
+  generic Markdown wiki positioning; installer-style README.
+- User-owned judgment: governance belongs after architecture; then gates; then
+  specialized skills; then concrete cases.
 
 ## Reference / Drift Correction
 
 - The earlier README drifted into command lists and health status.
 - The corrected shape centers:
-  - Learning Capture loop;
-  - Agent Skill loop;
-  - human-AI-tool collaboration model;
-  - four-layer architecture;
-  - medical maintenance;
+  - architecture first;
+  - governance design and gates second;
+  - specialized skill groups third;
   - WeChat article to H5/report example;
   - boundaries and entry points.
 
@@ -45,6 +43,8 @@ status: generated
   correction.
 - Python boundary: scripts are described as tool-layer batch processors, not
   the primary operating model.
+- Medical-agent boundary: AI interprets case files; humans confirm key
+  decisions; tools execute approved actions and leave recovery evidence.
 - Verification to run: read back both README files, check referenced paths,
   run frontmatter checker, inspect git status.
 

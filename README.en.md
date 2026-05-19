@@ -3,66 +3,22 @@ English | [中文](README.md)
 # LLM-WIKI
 
 LLM-WIKI is a project context-engineering repository for AI collaboration. It
-organizes project knowledge, source evidence, Agent Skills, governance rules,
+organizes source evidence, project knowledge, Agent Skills, governance rules,
 and maintenance records into a long-lived LLM-Wiki.
 
-The goal is not to store Markdown files. The goal is human-AI co-building on a
-shared knowledge structure:
+Its goal is not to create a Markdown folder or showcase scripts. Its goal is to
+let humans and AI co-build on the same wiki structure: humans provide goals,
+judgment, and authorization; AI reads, learns, generates, captures, and reviews;
+the wiki stores evidence, context, decisions, and output shapes.
 
-- humans own goals, judgment, authorization, and acceptance;
-- AI reads material, extracts structure, selects skills, generates artifacts,
-  and proposes repairs;
-- the wiki stores evidence, context, decisions, examples, and status;
-- governance limits writes, confirms risk, and reviews results.
+## Architecture
 
-## Design Principles
-
-### Context Engineering
-
-LLM-WIKI follows Karpathy’s context engineering idea: instead of forcing all
-context into a single chat window, organize project knowledge into a structure
-agents can keep reading and updating.
-
-### Skill First
-
-Agent actions go through `.codex/skills/` first. Skills define reading,
-writing, learning capture, output generation, diagnosis, recovery, and stop
-conditions. Batch scripts are only tools; they do not own judgment.
-
-### Evidence First
-
-External material keeps source boundaries before entering the wiki. Claims,
-methods, and output shapes must trace back to source evidence or operation
-records.
-
-### Human Review First
-
-Diagnosis, previews, and suggestions are not write permission. Structural,
-governance, rule, or high-risk output changes require human confirmation.
-
-## Three-Layer Collaboration Governance
-
-```text
-1. Human Review Layer
-   Humans provide goals, tradeoffs, key confirmation, and acceptance.
-
-2. Agent Skill Layer
-   AI uses skills to read context, judge boundaries, choose routes, generate
-   artifacts, and propose repairs.
-
-3. Runtime Evidence Layer
-   Wiki pages, case files, status artifacts, and script output record evidence
-   and execute approved actions.
-```
-
-All three layers are required before an operation can be treated as complete.
-
-## Four-Layer Context Architecture
+LLM-WIKI has four core layers.
 
 ```text
 1. Source Layer
    wiki/sources
-   Stores evidence from articles, WeChat posts, READMEs, meetings, interviews,
+   Stores evidence from WeChat posts, articles, READMEs, meetings, interviews,
    and project materials.
 
 2. Context Layer
@@ -80,68 +36,90 @@ All three layers are required before an operation can be treated as complete.
    recovery requirements.
 ```
 
-## Core Loop 1: Learning Capture
+These layers work together:
 
-`learning-capture` is the main entry for external information.
+- the source layer answers “what evidence does AI rely on?”;
+- the context layer lets the next conversation continue from prior work;
+- the skill layer tells AI how to act;
+- the governance layer controls what can change, who confirms it, and how it is reviewed.
 
-It does not simply summarize material. It decides how material should enter
-long-lived context:
+## Governance Design
 
-- should it be preserved as source evidence?
-- does it contain a reusable method?
-- should it become an output example?
-- is it only a candidate observation?
-- does it require OpenSpec, medical loop, or public report gate?
+The governance principle is: **AI can do substantial reading, judgment, and
+generation work, but key decisions need boundaries, evidence, and human review.**
 
-Typical path:
-
-```text
-article / WeChat post / README / meeting / interview / project material
--> learning-capture classifies source type and reuse boundary
--> wiki/sources stores evidence
--> wiki/ops stores methods, decisions, and collaboration traces
--> wiki/examples stores reusable output shapes
--> future agents reuse it through wiki-query / wiki-context / wiki-route
-```
-
-Related skills:
-
-- `learning-capture`
-- `readme-learning-capture`
-- `weixin-reader`
-- `material-collaboration-defaults`
-- `interview-deep-reading-board`
-- `meeting-note-output`
-- `project-management-weekly-skill`
-- `public-report-quality-gate`
-
-## Core Loop 2: Agent Skills
-
-`.codex/skills/` is the agent operating layer. It determines how agents act in
-this repository.
-
-Main skill groups:
-
-- Context lookup: `wiki-query`, `wiki-context`, `wiki-route`
-- Status diagnosis: `wiki-status`, `wiki-manifest`, `wiki-graph`, `wiki-scorecard`
-- Bounded suggestions: `wiki-apply`
-- Frontmatter: `wiki-frontmatter-taxonomy`
-- Governance changes: `openspec-router`, `openspec-propose`,
-  `openspec-apply-change`, `openspec-archive-change`
-- Completion verification: `verify-before-claiming`
-- Collaboration guardrails: `clarify-before-acting`, `simplicity-first`,
-  `surgical-changes`
-
-## Core Loop 3: Medical Agent
-
-Medical Agent is the safe entry for wiki self-maintenance.
+LLM-WIKI uses three-layer collaboration governance:
 
 ```text
-doctor -> review/confirm -> treatment or surgery -> recovery
-诊断   -> 确诊           -> 治疗 or 手术      -> 复查
+1. Human Review Layer
+   Humans provide goals, tradeoffs, key confirmation, and acceptance.
+
+2. Agent Skill Layer
+   AI uses Skills to read context, judge boundaries, choose routes, generate
+   artifacts, and propose repairs.
+
+3. Runtime Evidence Layer
+   Wiki pages, case files, status artifacts, and tool output record evidence
+   and execute approved actions.
 ```
 
-Related skills:
+Tool scripts live in the third layer. They batch-process, generate status,
+write structured records, and run checks. They do not replace AI judgment or
+human review.
+
+### Gates
+
+Primary gates:
+
+- **Skill Gate**: agents match `.codex/skills/` before acting.
+- **Learning Gate**: external material enters through `learning-capture` with
+  source, reuse boundary, and target location.
+- **Public Output Gate**: README, H5, reports, and public examples go through
+  `public-report-quality-gate`.
+- **Frontmatter Gate**: wiki pages follow `wiki/config/frontmatter-taxonomy.yaml`.
+- **Medical Gate**: wiki self-maintenance goes through `wiki-medical-agent` and
+  case files.
+- **OpenSpec Gate**: governance, structure, and lifecycle changes go through
+  OpenSpec.
+- **Verification Gate**: completion claims go through `verify-before-claiming`
+  with fresh evidence.
+
+The gates prevent plausible-looking AI output from becoming facts, rules, or
+structure without review.
+
+## Featured Skills
+
+### 1. Learning Capture
+
+Turns external input into long-lived context.
+
+- `learning-capture`: general entry for articles, cases, and materials.
+- `readme-learning-capture`: README and project-structure learning.
+- `weixin-reader`: WeChat article reading entry.
+- `material-collaboration-defaults`: default routing for source material.
+
+These skills decide:
+
+- whether material should be captured;
+- whether it belongs in `wiki/sources`, `wiki/ops`, or `wiki/examples`;
+- what remains a candidate observation;
+- how future agents should reuse it.
+
+### 2. Agent Context
+
+Lets agents retrieve wiki context instead of relying only on the current chat.
+
+- `wiki-query`
+- `wiki-context`
+- `wiki-route`
+- `wiki-status`
+- `wiki-manifest`
+- `wiki-graph`
+- `wiki-scorecard`
+
+### 3. Medical Loop
+
+Supports safe wiki self-maintenance.
 
 - `wiki-medical-agent`
 - `wiki-doctor`
@@ -151,9 +129,43 @@ Related skills:
 - `wiki-surgery`
 - `wiki-recovery`
 
-Medical Agent converges maintenance state into a case file. AI interprets the
-case file, humans confirm key decisions, and tools execute only approved narrow
-actions while leaving recovery evidence.
+Medical loop:
+
+```text
+doctor -> review/confirm -> treatment or surgery -> recovery
+诊断   -> 确诊           -> 治疗 or 手术      -> 复查
+```
+
+Medical Agent does not auto-repair. It converges maintenance state into a case
+file: AI interprets, humans confirm, tools execute approved actions, and
+recovery records evidence.
+
+### 4. Public Output
+
+Turns material into reader-facing artifacts.
+
+- `public-report-quality-gate`
+- `interview-deep-reading-board`
+- `meeting-note-output`
+- `project-management-weekly-skill`
+
+These skills control README, H5, reports, interview deep reads, meeting notes,
+and project weekly outputs so internal drafts are not treated as publishable
+artifacts.
+
+### 5. Governance
+
+Controls structural changes and completion claims.
+
+- `openspec-router`
+- `openspec-propose`
+- `openspec-apply-change`
+- `openspec-archive-change`
+- `wiki-frontmatter-taxonomy`
+- `verify-before-claiming`
+- `clarify-before-acting`
+- `simplicity-first`
+- `surgical-changes`
 
 ## Example: WeChat Article To H5 / Report
 
@@ -182,12 +194,13 @@ Recommended path:
    the target artifact path or wiki/examples.
 
 6. verify-before-claiming / medical loop
-   Verify the artifact exists. Route structural or rule changes to medical loop
-   or OpenSpec.
+   Verify the artifact exists. Route structural, rule, or wiki governance
+   changes to the medical loop or OpenSpec.
 ```
 
-This is AI co-building: AI reads, extracts, judges, routes, generates, captures,
-and reviews; humans own goals, judgment, authorization, and acceptance.
+This is AI co-building: AI reads, extracts structure, judges boundaries,
+selects Skills, generates artifacts, captures context, and triggers review;
+humans own goals, judgment, authorization, and acceptance.
 
 ## Project Structure
 
@@ -199,7 +212,7 @@ LLM-WIKI/
 ├── README.en.md                      # English entry
 ├── .codex/skills/                    # Agent Skills
 ├── openspec/changes/                 # Governance/change lifecycle
-├── scripts/                          # Tool layer: batch processing and checks
+├── scripts/                          # Tool layer: batch processing, status, checks
 └── wiki/
     ├── sources/                      # Source evidence
     ├── ops/                          # Workflow traces, medical cases, governance evidence
@@ -214,7 +227,7 @@ LLM-WIKI/
     └── timeline/                     # Timeline records
 ```
 
-## Key Entry Points
+## Entry Points
 
 - `AGENTS.md`: agent rules and stop conditions;
 - `.codex/skills/`: Agent Skills;
@@ -227,29 +240,9 @@ LLM-WIKI/
 ## Boundaries
 
 - README is a reader entry, not runtime authority.
-- Runtime authority lives in `AGENTS.md`, skills, OpenSpec, case files, and
+- Runtime authority lives in `AGENTS.md`, Skills, OpenSpec, case files, and
   status artifacts.
-- Script output is tool-layer evidence, not judgment.
+- Tool output is evidence, not judgment.
 - External learning cannot become a rule directly; it must pass capture,
   evidence, and the proper gate.
 - Medical previews are not repair permission.
-
-## FAQ
-
-### What does AI own here?
-
-AI reads material, extracts structure, judges boundaries, selects skills,
-generates artifacts, captures context, and triggers diagnosis or recovery.
-Humans own goals, tradeoffs, authorization, and final acceptance.
-
-### What do scripts own here?
-
-Scripts handle batch processing, structured output, status generation,
-frontmatter checks, and case refreshes. They do not replace AI judgment or
-human review.
-
-### Where should I start?
-
-Start with `AGENTS.md`, `.codex/skills/`, `wiki/status/wiki-status.md`,
-`wiki/sources/`, and `wiki/ops/`. Then let the agent choose the next route
-through `wiki-query`, `wiki-context`, or `wiki-medical-agent`.
