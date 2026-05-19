@@ -73,16 +73,16 @@ LLM-WIKI 的主要门禁包括：
 
 ## 特色 Skills
 
-### 1. Learning Capture 系列
+### 1. 输入到长期上下文
 
-负责把外部输入变成长期上下文。
+这不是四个重复入口，而是一条输入链上的不同职责。
 
-- `learning-capture`：外部文章、案例、材料的通用学习入口。
-- `readme-learning-capture`：针对 GitHub/GitLab README 和项目结构的学习入口。
-- `weixin-reader`：微信公众号材料读取入口。
-- `material-collaboration-defaults`：材料进入 Wiki 的默认协作路由。
+- `learning-capture`：总路由。先判断外部输入是不是值得学习、复用边界是什么、应该沉淀到哪里。
+- `readme-learning-capture`：Repo/README 专用学习模块。处理 GitHub/GitLab 项目、README 结构、可复用设计和不应照搬的边界。
+- `weixin-reader`：微信公众号读取器。只负责把 `mp.weixin.qq.com` 正文可靠取回为 Markdown，后续分析仍交给学习或输出类 skill。
+- `material-collaboration-defaults`：材料协作默认路由。处理会议纪要、附件、预览稿、报告素材等已经进入仓库的材料，避免停在占位 intake。
 
-它们关注的是：
+这条链路关注的是：
 
 - 这份材料是否值得沉淀；
 - 应进入 `wiki/sources`、`wiki/ops` 还是 `wiki/examples`；

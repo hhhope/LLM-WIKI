@@ -89,16 +89,24 @@ structure without review.
 
 ## Featured Skills
 
-### 1. Learning Capture
+### 1. Input To Long-Lived Context
 
-Turns external input into long-lived context.
+These are not four duplicate entry points. They are different roles in one
+input chain.
 
-- `learning-capture`: general entry for articles, cases, and materials.
-- `readme-learning-capture`: README and project-structure learning.
-- `weixin-reader`: WeChat article reading entry.
-- `material-collaboration-defaults`: default routing for source material.
+- `learning-capture`: the router. It decides whether an external input should
+  become learning, what the reuse boundary is, and where it should land.
+- `readme-learning-capture`: the repo/README module. It handles GitHub/GitLab
+  projects, README structure, reusable design choices, and what should not be
+  copied.
+- `weixin-reader`: the WeChat reader. It only fetches `mp.weixin.qq.com`
+  article bodies into Markdown; later analysis belongs to learning or output
+  skills.
+- `material-collaboration-defaults`: the material collaboration route. It
+  handles meeting notes, attachments, preview drafts, report material, and
+  other source files already dropped into the repo.
 
-These skills decide:
+This chain decides:
 
 - whether material should be captured;
 - whether it belongs in `wiki/sources`, `wiki/ops`, or `wiki/examples`;
