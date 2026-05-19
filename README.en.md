@@ -48,6 +48,37 @@ These layers work together:
 The governance principle is: **AI can do substantial reading, judgment, and
 generation work, but key decisions need boundaries, evidence, and human review.**
 
+Governance is not one-way approval. Inputs are gated, outputs are gated, and
+boundary violations trigger review.
+
+```text
+External material / user intent
+        |
+        v
+ [Input gates]
+ Skill Gate + Learning Gate + Frontmatter Gate
+        |
+        v
+ [AI defaults]
+ Read context -> judge boundary -> choose Skill -> generate candidate artifact
+        |
+        v
+ [Human protocol]
+ Confirm goal -> make tradeoffs -> authorize writes -> accept release
+        |
+        v
+ [Output gates]
+ Public Output Gate + Medical Gate + OpenSpec Gate + Verification Gate
+        |
+        v
+ Wiki / H5 / report / case file / status artifact
+
+Boundary drift or dispute
+        |
+        v
+ Review -> repair skill / taxonomy / OpenSpec / README / examples
+```
+
 LLM-WIKI uses three-layer collaboration governance:
 
 ```text
@@ -67,16 +98,22 @@ Tool scripts live in the third layer. They batch-process, generate status,
 write structured records, and run checks. They do not replace AI judgment or
 human review.
 
+The human-side protocol is fixed: goals, judgments, authorization, and
+acceptance stay with humans. The AI-side default is Skills: read context and
+boundaries first, choose the route, then explain outputs with evidence. The
+tool-side rule is narrower: tools record and check; preview, score, or script
+output does not automatically become fact, rule, or approval.
+
 ### Gates
 
-Primary gates:
+Primary gates are split between input and output:
 
 - **Skill Gate**: agents match `.codex/skills/` before acting.
 - **Learning Gate**: external material enters through `learning-capture` with
   source, reuse boundary, and target location.
+- **Frontmatter Gate**: wiki pages follow `wiki/config/frontmatter-taxonomy.yaml`.
 - **Public Output Gate**: README, H5, reports, and public examples go through
   `public-report-quality-gate`.
-- **Frontmatter Gate**: wiki pages follow `wiki/config/frontmatter-taxonomy.yaml`.
 - **Medical Gate**: wiki self-maintenance goes through `wiki-medical-agent` and
   case files.
 - **OpenSpec Gate**: governance, structure, and lifecycle changes go through
@@ -84,86 +121,94 @@ Primary gates:
 - **Verification Gate**: completion claims go through `verify-before-claiming`
   with fresh evidence.
 
-The gates prevent plausible-looking AI output from becoming facts, rules, or
-structure without review.
+Input gates decide whether material enters, what identity it has, and where it
+lands. Output gates decide whether artifacts can be published, rules can take
+effect, and governance changes can be recorded. They prevent plausible-looking
+AI output from becoming facts, rules, or structure without review.
 
 ## Featured Skills
 
-### 1. Input To Long-Lived Context
-
-These are not four duplicate entry points. They are different roles in one
-input chain.
-
-- `learning-capture`: the router. It decides whether an external input should
-  become learning, what the reuse boundary is, and where it should land.
-- `readme-learning-capture`: the repo/README module. It handles GitHub/GitLab
-  projects, README structure, reusable design choices, and what should not be
-  copied.
-- `weixin-reader`: the WeChat reader. It only fetches `mp.weixin.qq.com`
-  article bodies into Markdown; later analysis belongs to learning or output
-  skills.
-- `material-collaboration-defaults`: the material collaboration route. It
-  handles meeting notes, attachments, preview drafts, report material, and
-  other source files already dropped into the repo.
-
-This chain decides:
-
-- whether material should be captured;
-- whether it belongs in `wiki/sources`, `wiki/ops`, or `wiki/examples`;
-- what remains a candidate observation;
-- how future agents should reuse it.
-
-### 2. Agent Context
-
-Lets agents retrieve wiki context instead of relying only on the current chat.
-
-- `wiki-query`
-- `wiki-context`
-- `wiki-route`
-- `wiki-status`
-- `wiki-manifest`
-- `wiki-graph`
-- `wiki-scorecard`
-
-### 3. Medical Loop
-
-Supports safe wiki self-maintenance.
-
-- `wiki-medical-agent`
-- `wiki-doctor`
-- `wiki-confirm`
-- `wiki-review-decisions`
-- `wiki-treatment`
-- `wiki-surgery`
-- `wiki-recovery`
-
-Medical loop:
+Skills are not a command list. They are the agent's default operating
+protocols. They connect user intent, external material, wiki context,
+reader-facing artifacts, and governance changes into reviewable loops.
 
 ```text
+Intent / material
+   |
+   v
+Learning Intake -> Context Retrieval -> Output / Medical / Governance
+   |                    |                         |
+   v                    v                         v
+sources / ops      status / graph            report / case / OpenSpec
+   \____________________ evidence + review ____________________/
+```
+
+### 1. Learning Intake
+
+Decides how external input enters long-lived context.
+
+- `learning-capture` is the router: material identity, reuse boundary, and
+  landing place come first.
+- `readme-learning-capture` handles repo/README learning: transferable design
+  choices are extracted, structures that should not be copied are rejected.
+- `weixin-reader` is a reader: it fetches WeChat article bodies into Markdown;
+  it does not own later judgment.
+- `material-collaboration-defaults` handles meetings, attachments, report
+  material, and preview drafts already dropped into the repo.
+
+This group answers: what the material is, whether it is worth capturing, which
+layer receives it, and how future agents should reuse it.
+
+### 2. Context Retrieval
+
+Lets agents retrieve evidence from the wiki instead of continuing from the
+current chat alone.
+
+- `wiki-query` combines routing, context, and text search.
+- `wiki-context` reads the runtime context bundle.
+- `wiki-route` returns source-integrated routing suggestions.
+- `wiki-status` and `wiki-manifest` inspect current status and source lists.
+- `wiki-graph` and `wiki-scorecard` inspect relations, coverage, and semantic
+  health.
+
+This group provides diagnostics and context. It does not authorize writes by
+itself.
+
+### 3. Medical Maintenance
+
+Supports wiki self-maintenance without becoming an auto-repair bot.
+
+```text
+wiki-medical-agent
+        |
+        v
 doctor -> review/confirm -> treatment or surgery -> recovery
 诊断   -> 确诊           -> 治疗 or 手术      -> 复查
 ```
 
-Medical Agent does not auto-repair. It converges maintenance state into a case
-file: AI interprets, humans confirm, tools execute approved actions, and
-recovery records evidence.
+`wiki-medical-agent` is the normal entry. `wiki-doctor`,
+`wiki-review-decisions`, `wiki-treatment`, `wiki-surgery`, and `wiki-recovery`
+are stage capabilities. AI diagnoses and proposes; humans confirm key
+decisions; tools execute approved actions; recovery records evidence.
 
-### 4. Public Output
+### 4. Reader-Facing Output
 
-Turns material into reader-facing artifacts.
+Turns material into reader-facing artifacts without publishing internal drafts.
 
-- `public-report-quality-gate`
-- `interview-deep-reading-board`
-- `meeting-note-output`
-- `project-management-weekly-skill`
+- `public-report-quality-gate` owns reader intent, structure, citation, and
+  judgment ownership for README, H5, reports, and public examples.
+- `interview-deep-reading-board` owns interview deep reads, evidence boards,
+  timelines, and temperature-axis outputs.
+- `meeting-note-output` owns meeting-note outputs.
+- `project-management-weekly-skill` owns project weekly reports, milestones,
+  and risk communication.
 
-These skills control README, H5, reports, interview deep reads, meeting notes,
-and project weekly outputs so internal drafts are not treated as publishable
-artifacts.
+This group answers: who reads it, what judgment the reader needs to make, what
+structure carries the evidence, and when the artifact can be published.
 
-### 5. Governance
+### 5. Governance Promotion
 
-Controls structural changes and completion claims.
+Promotes candidate judgments into rules, structures, or lifecycle changes.
 
 - `openspec-router`
 - `openspec-propose`
@@ -175,35 +220,48 @@ Controls structural changes and completion claims.
 - `simplicity-first`
 - `surgical-changes`
 
+This group controls the upgrade path: clarify the boundary, minimize the
+change, then record structural changes through OpenSpec, taxonomy, and fresh
+verification evidence. Anything that has not passed this path remains a draft,
+candidate observation, or local artifact.
+
 ## Example: WeChat Article To H5 / Report
 
-Input: a WeChat article.  
-Goal: generate an H5 deep-reading page, report draft, card, or evidence board.
+The input is not just an article. It is material plus intent:
+
+- a WeChat article;
+- the target artifact, such as an H5 deep read, report draft, card, timeline,
+  temperature axis, or evidence board;
+- reader, usage scenario, and whether the result should be captured into the
+  wiki.
 
 Recommended path:
 
 ```text
-1. weixin-reader
-   Fetch or structure the WeChat material and preserve source boundaries.
+1. User intent -> learning-capture
+   The agent first decides whether the material is evidence, method reference,
+   case material, output work, or candidate observation.
 
-2. learning-capture
-   Decide whether the material is evidence, method reference, case material, or
-   candidate observation.
+2. Choose the reader by material shape
+   If the source is mp.weixin.qq.com, call weixin-reader to fetch the body. If
+   the material already lives in the repo, use material-collaboration-defaults.
+   If it is a README or repo, use readme-learning-capture.
 
-3. wiki/sources + wiki/ops
-   Store source evidence, summaries, reusable methods, disputes, and next
-   actions.
+3. Choose the artifact path by intent
+   H5, report, card, evidence board, timeline, and temperature axis are not
+   fixed outputs. The user's intent and reader goal decide the shape.
 
-4. public-report-quality-gate / interview-deep-reading-board
-   Choose the output gate and structure from the reader goal.
+4. wiki/sources + wiki/ops
+   Store source evidence, summaries, reusable methods, disputes, output-use
+   hints, and next actions.
 
-5. Output artifact
-   H5, report, card, timeline, temperature axis, or evidence board is written to
-   the target artifact path or wiki/examples.
+5. public-report-quality-gate / interview-deep-reading-board
+   For reader-visible H5, reports, or deep-reading artifacts, pass reader
+   intent, structure, citation, and judgment-ownership gates first.
 
 6. verify-before-claiming / medical loop
-   Verify the artifact exists. Route structural, rule, or wiki governance
-   changes to the medical loop or OpenSpec.
+   Verify that the target artifact and wiki capture both exist. Route
+   structural, rule, or wiki governance changes to the medical loop or OpenSpec.
 ```
 
 This is AI co-building: AI reads, extracts structure, judges boundaries,

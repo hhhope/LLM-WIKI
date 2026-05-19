@@ -42,6 +42,36 @@ LLM-WIKI 的核心架构分四层。
 
 LLM-WIKI 的治理理念是：**AI 可以执行大量阅读、判断和生成工作，但关键判断必须有边界、有证据、有人审。**
 
+治理不是单向审批，而是“进入有门禁、产出有门禁、越界有复盘”。
+
+```text
+外部材料 / 用户意图
+        |
+        v
+ [入口门禁]
+ Skill Gate + Learning Gate + Frontmatter Gate
+        |
+        v
+ [AI 默认规范]
+ 读取上下文 -> 判断边界 -> 选择 Skill -> 生成候选产物
+        |
+        v
+ [人固定规范]
+ 目标确认 -> 关键取舍 -> 授权写入 -> 验收发布
+        |
+        v
+ [出口门禁]
+ Public Output Gate + Medical Gate + OpenSpec Gate + Verification Gate
+        |
+        v
+ Wiki / H5 / 报告 / case file / status artifact
+
+越界或争议
+        |
+        v
+ 复盘 -> 修正 skill / taxonomy / OpenSpec / README / 示例
+```
+
 因此仓库采用三层协作治理：
 
 ```text
@@ -57,87 +87,90 @@ LLM-WIKI 的治理理念是：**AI 可以执行大量阅读、判断和生成工
 
 工具脚本属于第三层，只负责批量处理、状态生成、结构化记录和检查；它们不替代 AI 判断，也不替代人审。
 
+人侧规范相对固定：目标、判断、授权和验收必须由人确认。  
+AI 侧规范默认收敛到 Skills：先读上下文和边界，再选择路径，最后用证据说明产出。  
+工具侧规范只记录和检查，不把 preview、score 或脚本输出自动升级为事实、规则或批准。
+
 ### 门禁
 
-LLM-WIKI 的主要门禁包括：
+LLM-WIKI 的主要门禁分为入口和出口：
 
 - **Skill Gate**：Agent 行动前先匹配 `.codex/skills/`，不能绕过技能直接写。
 - **Learning Gate**：外部材料先经过 `learning-capture`，明确来源、复用边界和沉淀位置。
-- **Public Output Gate**：README、H5、报告、公开样例等读者面产物走 `public-report-quality-gate`。
 - **Frontmatter Gate**：Wiki 页面遵循 `wiki/config/frontmatter-taxonomy.yaml`。
+- **Public Output Gate**：README、H5、报告、公开样例等读者面产物走 `public-report-quality-gate`。
 - **Medical Gate**：Wiki 自维护走 `wiki-medical-agent`，由 case file 管理状态。
 - **OpenSpec Gate**：治理、结构或生命周期变更走 OpenSpec。
 - **Verification Gate**：声明完成前走 `verify-before-claiming`，用新鲜证据复查。
 
-这些门禁的目的不是增加流程，而是防止 AI 把“看起来合理的输出”直接升级为规则、结构或事实。
+入口门禁决定材料能不能进、以什么身份进、沉淀到哪里。出口门禁决定产物能不能发布、规则能不能生效、治理变更能不能落库。它们的目的不是增加流程，而是防止 AI 把“看起来合理的输出”直接升级为规则、结构或事实。
 
 ## 特色 Skills
 
-### 1. 输入到长期上下文
-
-这不是四个重复入口，而是一条输入链上的不同职责。
-
-- `learning-capture`：总路由。先判断外部输入是不是值得学习、复用边界是什么、应该沉淀到哪里。
-- `readme-learning-capture`：Repo/README 专用学习模块。处理 GitHub/GitLab 项目、README 结构、可复用设计和不应照搬的边界。
-- `weixin-reader`：微信公众号读取器。只负责把 `mp.weixin.qq.com` 正文可靠取回为 Markdown，后续分析仍交给学习或输出类 skill。
-- `material-collaboration-defaults`：材料协作默认路由。处理会议纪要、附件、预览稿、报告素材等已经进入仓库的材料，避免停在占位 intake。
-
-这条链路关注的是：
-
-- 这份材料是否值得沉淀；
-- 应进入 `wiki/sources`、`wiki/ops` 还是 `wiki/examples`；
-- 哪些只是候选观察，不能升级成规则；
-- 后续 Agent 如何重新利用。
-
-### 2. Agent Context 系列
-
-负责让 Agent 从 Wiki 中取上下文，而不是只靠当前对话。
-
-- `wiki-query`
-- `wiki-context`
-- `wiki-route`
-- `wiki-status`
-- `wiki-manifest`
-- `wiki-graph`
-- `wiki-scorecard`
-
-它们让 Agent 可以先看已有状态、关系、上下文和路由建议，再决定下一步。
-
-### 3. Medical Loop 系列
-
-负责 Wiki 自维护。
-
-- `wiki-medical-agent`
-- `wiki-doctor`
-- `wiki-confirm`
-- `wiki-review-decisions`
-- `wiki-treatment`
-- `wiki-surgery`
-- `wiki-recovery`
-
-医疗闭环：
+Skills 不是命令清单，而是 Agent 的默认操作协议。它们把“用户意图、外部材料、Wiki 上下文、读者产物、治理变更”接成可复查的闭环。
 
 ```text
+意图 / 材料
+   |
+   v
+Learning Intake -> Context Retrieval -> Output / Medical / Governance
+   |                    |                         |
+   v                    v                         v
+sources / ops      status / graph            report / case / OpenSpec
+   \____________________ evidence + review ____________________/
+```
+
+### 1. Learning Intake
+
+负责判断外部输入如何进入长期上下文。
+
+- `learning-capture` 是总路由：先判断材料身份、复用边界和沉淀位置。
+- `readme-learning-capture` 处理 Repo/README 学习：提取可迁移设计，拒绝不应照搬的结构。
+- `weixin-reader` 是读取器：只把微信公众号正文取回为 Markdown，不拥有后续判断。
+- `material-collaboration-defaults` 处理已进入仓库的会议、附件、报告素材和预览稿。
+
+这一组解决“材料是什么、值不值得沉淀、进入 sources / ops / examples 哪一层、后续 Agent 如何复用”。
+
+### 2. Context Retrieval
+
+负责让 Agent 从 Wiki 取证据，而不是只靠当前对话继续写。
+
+- `wiki-query` 组合路由、上下文和文本检索。
+- `wiki-context` 读取运行时上下文包。
+- `wiki-route` 给出来源整合后的路由建议。
+- `wiki-status`、`wiki-manifest` 查看当前状态面和来源清单。
+- `wiki-graph`、`wiki-scorecard` 检查关系、覆盖度和语义健康度。
+
+这一组只提供诊断和上下文，不自动授权写入。
+
+### 3. Medical Maintenance
+
+负责 Wiki 自维护的闭环，不是自动修复器。
+
+```text
+wiki-medical-agent
+        |
+        v
 doctor -> review/confirm -> treatment or surgery -> recovery
 诊断   -> 确诊           -> 治疗 or 手术      -> 复查
 ```
 
-Medical Agent 的重点不是自动修复，而是把维护状态收敛到 case file：AI 判断，人确认，工具执行已批准动作，最后 recovery 留痕。
+`wiki-medical-agent` 是正常入口；`wiki-doctor`、`wiki-review-decisions`、`wiki-treatment`、`wiki-surgery`、`wiki-recovery` 是阶段能力。AI 负责诊断和方案，人确认关键判断，工具只执行已批准动作，最后用 recovery 留痕。
 
-### 4. Public Output 系列
+### 4. Reader-Facing Output
 
-负责把材料加工成读者面产物。
+负责把材料变成读者面产物，而不是把内部草稿直接发布。
 
-- `public-report-quality-gate`
-- `interview-deep-reading-board`
-- `meeting-note-output`
-- `project-management-weekly-skill`
+- `public-report-quality-gate` 管 README、H5、报告、公开样例的读者意图、结构、引用和判断归属。
+- `interview-deep-reading-board` 管访谈深读、证据板、时间线、温度轴等结构化深读产物。
+- `meeting-note-output` 管会议纪要输出。
+- `project-management-weekly-skill` 管项目周报、里程碑和风险沟通。
 
-它们控制 README、H5、报告、访谈深读、会议纪要、项目周报等输出，避免把内部草稿直接当成可发布内容。
+这一组解决“给谁看、让读者做什么判断、用什么结构承载证据、什么时候可以发布”。
 
-### 5. Governance 系列
+### 5. Governance Promotion
 
-负责结构性变更和完成声明。
+负责把候选判断升级为规则、结构或生命周期变更。
 
 - `openspec-router`
 - `openspec-propose`
@@ -149,33 +182,38 @@ Medical Agent 的重点不是自动修复，而是把维护状态收敛到 case 
 - `simplicity-first`
 - `surgical-changes`
 
-这些 Skills 让治理变更有边界、有生命周期、有验证。
+这一组控制升级路径：先澄清边界，再最小化变更，再用 OpenSpec、taxonomy、验证证据记录结构性变更。没有通过这组门禁的内容，只能是草稿、候选观察或局部产物。
 
 ## 案例：微信公众号文章到 H5 / 报告
 
-输入：一篇微信公众号文章。  
-目标：生成 H5 深度阅读、报告草稿、卡片或证据板。
+输入不是单独的一篇文章，而是“材料 + 意图”：
+
+- 一篇微信公众号文章；
+- 目标产物，例如 H5 深度阅读、报告草稿、卡片、时间线、温度轴或证据板；
+- 读者、使用场景和是否需要沉淀到 Wiki。
 
 推荐路径：
 
 ```text
-1. weixin-reader
-   获取或整理公众号材料，保留来源边界。
+1. 用户意图 -> learning-capture
+   Agent 先判断这是来源证据、方法参考、案例素材、输出任务，还是候选观察。
 
-2. learning-capture
-   判断材料是来源证据、方法参考、案例素材，还是候选观察。
+2. 按材料形态选择读取器
+   如果是 mp.weixin.qq.com，再调用 weixin-reader 取正文；如果材料已经在仓库中，
+   走 material-collaboration-defaults；如果是 README/Repo，走 readme-learning-capture。
 
-3. wiki/sources + wiki/ops
-   保存原始证据、摘要、可复用方法、争议点和后续动作。
+3. 按目标选择产物链路
+   H5、报告、卡片、证据板、时间线、温度轴等不是固定产物，由用户意图和读者目标决定。
 
-4. public-report-quality-gate / interview-deep-reading-board
-   根据读者目标选择输出门禁和结构。
+4. wiki/sources + wiki/ops
+   保存来源证据、摘要、可复用方法、争议点、输出用途和后续动作。
 
-5. 输出产物
-   H5、报告、卡片、时间线、温度轴、证据板等进入目标产物路径或 wiki/examples。
+5. public-report-quality-gate / interview-deep-reading-board
+   如果进入读者可见的 H5、报告或深度阅读产物，先过读者意图、结构、引用和判断归属门禁。
 
 6. verify-before-claiming / medical loop
-   验证产物存在；如涉及结构、规则或 Wiki 治理变更，进入 medical loop 或 OpenSpec。
+   验证目标产物和 Wiki 沉淀都真实存在；如涉及结构、规则或 Wiki 治理变更，进入
+   medical loop 或 OpenSpec。
 ```
 
 这个例子体现的是 AI 共建：AI 负责读材料、抽结构、判断边界、选择 Skill、生成产物、沉淀上下文和触发复查；人负责目标、取舍、授权和验收。

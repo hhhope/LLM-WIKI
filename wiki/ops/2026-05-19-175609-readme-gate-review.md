@@ -20,6 +20,10 @@ status: generated
   generic Markdown wiki positioning; installer-style README.
 - User-owned judgment: governance belongs after architecture; then gates; then
   specialized skills; then concrete cases.
+- User-owned correction: the WeChat example must start from user intent routed
+  through `learning-capture`, not from `weixin-reader` as a fixed first step.
+- User-owned correction: featured skills must be presented as operating loops,
+  not as a flat tool list.
 
 ## Reference / Drift Correction
 
@@ -27,8 +31,8 @@ status: generated
 - The corrected shape centers:
   - architecture first;
   - governance design and gates second;
-  - specialized skill groups third;
-  - WeChat article to H5/report example;
+  - specialized skill loops third;
+  - WeChat article to H5/report example as intent-first routing;
   - boundaries and entry points.
 
 ## Gate Checks
@@ -45,6 +49,11 @@ status: generated
   the primary operating model.
 - Medical-agent boundary: AI interprets case files; humans confirm key
   decisions; tools execute approved actions and leave recovery evidence.
+- WeChat example boundary: `weixin-reader` is a material reader, not the owner
+  of the workflow; product shape is selected from user intent and reader goal.
+- Featured skills boundary: Skills are operating protocols for intake,
+  retrieval, medical maintenance, reader-facing output, and governance
+  promotion; they are not command wrappers.
 - Verification to run: read back both README files, check referenced paths,
   run frontmatter checker, inspect git status.
 
